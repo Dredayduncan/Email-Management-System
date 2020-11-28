@@ -1,1 +1,1 @@
-# Email-Management-System
+# Email-Management-Web-Application
