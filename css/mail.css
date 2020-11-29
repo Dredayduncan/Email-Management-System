@@ -1,0 +1,317 @@
+/*//////////////////////////////////////////////////////////////////
+[ mail page ]*/
+
+.limiter {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.container-login100 {
+    width: 100%;  
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background-color: rgb(28, 34, 47);
+}
+
+.wrap-login100 {
+    width: 90%;
+    min-height: 90vh;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 177px 130px 33px 95px;
+}
+
+/*----------------Side and Top Navigations-------------*/
+
+.top-nav{
+    position: relative;
+    /* background-color: red; */
+    margin-top: -16%;
+    left: -7%;
+}
+.side-nav{
+    position: relative;
+    /* background-color: green; */
+    width: 250px;
+    padding-right: 1.25rem;
+    padding-bottom: 4rem;
+    overflow-x: hidden;
+    /* box-shadow: 1px 1px 3px #555 inset; */
+    margin-top: -7%;
+    /* height: 80vh; */
+    left: -86%;
+}
+
+.side-nav li{
+    list-style: none;
+}
+
+.side-nav .side-menu{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-left: 4rem;
+    /* padding-left: 0.4rem; */
+    --text-opacity: 1;
+    color: rgba(160,174,192,var(--text-opacity));
+    margin-bottom: .25rem;
+    position: relative;
+    border-radius: 9999px;
+}
+
+.hov {
+    display: none;
+    position: relative;
+    left: 65px;
+}
+
+ /*------------------Search Button---------------------------*/ 
+ /*[ Input ]*/
+  
+ .wrap-input100 {
+    width: 67%;
+    position: relative;
+    top: -13%;
+    left: 47%;
+    border-bottom: 2px solid  rgb(128, 166, 216);
+    margin-bottom: 30px;
+}
+
+.input100 {
+    font-family: Poppins-Regular;
+    font-size: 16px;
+    color:  rgb(128, 166, 216);
+    line-height: 1.2;
+    border: none;
+    display: block;
+    width: 100%;
+    height: 45px;
+    background: transparent;
+    padding: 0 5px 0 38px;
+    padding-top: 15px;
+}
+
+.focus-input100 {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+/*---------------------------------------------*/
+.focus-input100::before {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+
+    background:  black;
+}
+
+.focus-input100::after {
+    font-family: 'Font Awesome\ 5 Free';
+    font-weight: 900;
+    font-size: 15px;
+    color:  rgb(128, 166, 216);
+    content: attr(data-placeholder);
+    display: flex;
+    width: 100%;
+    position: absolute;
+    top: 16px;
+    left: 0px;
+    padding-left: 5px;
+    
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+}
+
+.input100:focus {
+    position: relative;
+    outline: none;
+    left: -20px;
+}
+
+.input100:focus + .focus-input100::after {
+    top: -5px;
+    font-size: 18px;
+}
+
+.input100:focus + .focus-input100::before {
+    width: 100%;
+}
+
+/*-------------- Menu Bar------------------ */
+.options {
+    position: relative;
+    top: -30%;
+    left: 115%;
+    display: inline-flex;
+}
+
+.options li {
+    color:  rgb(128, 166, 216);
+    margin-left: 30px;
+    list-style: none;
+}
+
+/*-----------Email divs-------------*/
+.preview{
+    position: relative;
+    margin-top: -13%;
+    width: 100%;
+    /* left: -55%; */
+}
+.emails {
+    left: 15%;
+    top: -39.5%;
+    position: relative;
+    background:rgb(140, 162, 190);
+    width: 32%;
+    border-radius: 10px;
+    overflow: hidden;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 177px 130px 33px 95px;
+    height: 145%;
+    
+}
+
+.email-preview {
+    position: relative;
+    width: 64%;
+    left: 47.5%;
+    top: -184.5%;
+    height: 145%;
+    background:rgb(140, 162, 190);
+    border-radius: 10px;
+    overflow: hidden;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 177px 130px 33px 95px;
+}
+
+/*---------------- New Message Button and Slider------------------*/
+
+.slider {
+    position: relative;
+    float: left; 
+    list-style: none;
+    top: 1.3%;
+    font-size: larger;
+    cursor: pointer;
+    width: 30px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.slider:hover {
+    
+    background-color: rgb(176, 187, 202);
+}
+
+#btn {
+    background-color: rgb(128, 166, 216);
+    height: 45px;
+    width: 150px;
+    border: none;
+    border-radius: 10px;
+    color: #eee;
+    font-size: 16px;
+    position: relative;
+    transition: 1s;
+    -webkit-tap-highlight-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    left: 5%;
+  }
+  
+#btn #circle {
+    width: 5px;
+    height: 5px;
+    background: transparent;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    overflow: hidden;
+    transition: 500ms;
+}
+  
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+  
+#btn:hover {
+    background: transparent;
+    color: #222;
+}
+  
+#btn:hover #circle {
+    height: 50px;
+    width: 150px;
+    left: 0;
+    border-radius: 0;
+    border-bottom: 2px solid black;
+}
+
+
+
+/* .has-val.input100 + .focus-input100::after {
+    top: -22px;
+    font-size: 18px;
+}
+
+.has-val.input100 + .focus-input100::before {
+    width: 100%;
+}
+
+.has-val.input100 {
+    padding-left: 5px;
+} */
+
