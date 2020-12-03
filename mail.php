@@ -48,13 +48,16 @@
 						<li><i class="fa fa-reply-all"></i>&nbsp; Reply All</li>
 						<li><i class="fa fa-envelope-open"></i>&nbsp; Mark As Unread</li>
 						<li><i class="fa fa-trash"></i>&nbsp; Delete</li>
+						<li><img src="images/logo.png" alt=""></li>
 					</div>
 				</div>
 				
-				<!-- Side NAV -->
+				<!-- Side Navigation Bar -->
 				<div class="side-nav">
-					<!-- <a href="index.html"><img src="images/kada.png"></a> -->
-					<!-- <div class="divider"></div> -->
+					<li id="lab" class='label'>
+						<i id="drop" class='fas fa-angle-down' style="font-size: 20px;"></i>
+						&nbsp; Email
+					</li>
 					<li class='side-menu'>
 						<i class='fas fa-inbox'></i>
 						&nbsp; Inbox
@@ -73,12 +76,198 @@
 
 				</div>
 
-				<div class="preview">
 					<!-- Emails listing -->
-					<div class="emails"></div>
+					<div class="emails">
+						<div class="email-card">
+							<img src="images/logo.png" alt="">
+							<p class="date" hidden>2020/20/12</p>
+							<div class="name">
+								<p>Andrew Duncan</p>
+							</div>
+							<div class="sub">
+								<p >Assignment 2 Submission</p>
+							</div>
+							<div class="text">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+									sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+									Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+									 commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+									  dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+									   sunt in culpa qui officia deserunt mollit anim id est laborum.
+								</p>
+							</div>	
+						</div>
+						<div class="email-card">
+							<img src="images/logo.png" alt="">
+							<p class="date" hidden>2020/20/12</p>
+							<div class="name">
+								<p>Andrew Duncan</p>
+							</div>
+							<div class="sub">
+								<p >Assignment 2 Submission</p>
+							</div>
+							<div class="text">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+									sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+									Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+									 commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+									  dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+									   sunt in culpa qui officia deserunt mollit anim id est laborum.
+								</p>
+							</div>	
+						</div>
+						<div class="email-card">
+							<img src="images/logo.png" alt="">
+							<p class="date" hidden>2020/20/12</p>
+							<div class="name">
+								<p>Andrew Duncan</p>
+							</div>
+							<div class="sub">
+								<p >Assignment 2 Submission</p>
+							</div>
+							<div class="text">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+									sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+									Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+									 commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+									  dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+									   sunt in culpa qui officia deserunt mollit anim id est laborum.
+								</p>
+							</div>	
+						</div>
+						<div class="email-card">
+							<img src="images/logo.png" alt="">
+							<p class="date" hidden>2020/20/12</p>
+							<div class="name">
+								<p>Andrew Duncan</p>
+							</div>
+							<div class="sub">
+								<p >Assignment 2 Submission</p>
+							</div>
+							<div class="text">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+									sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+									Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+									 commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+									  dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+									   sunt in culpa qui officia deserunt mollit anim id est laborum.
+								</p>
+							</div>	
+						</div>
+						<div class="email-card">
+							<img src="images/logo.png" alt="">
+							<p class="date" hidden>2020/20/12</p>
+							<div class="name">
+								<p>Andrew Duncan</p>
+							</div>
+							<div class="sub">
+								<p >Assignment 2 Submission</p>
+							</div>
+							<div class="text">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+									sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+									Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+									 commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+									  dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+									   sunt in culpa qui officia deserunt mollit anim id est laborum.
+								</p>
+							</div>	
+						</div>
+						<div class="email-card">
+							<img src="images/logo.png" alt="">
+							<p class="date" hidden>2020/20/12</p>
+							<div class="name">
+								<p>Andrew Duncan</p>
+							</div>
+							<div class="sub">
+								<p >Assignment 2 Submission</p>
+							</div>
+							<div class="text">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+									sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+									Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+									 commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+									  dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+									   sunt in culpa qui officia deserunt mollit anim id est laborum.
+								</p>
+							</div>	
+						</div>
+						<div class="email-card">
+							<img src="images/logo.png" alt="">
+							<p class="date" hidden>2020/20/12</p>
+							<div class="name">
+								<p>Andrew Duncan</p>
+							</div>
+							<div class="sub">
+								<p >Assignment 2 Submission</p>
+							</div>
+							<div class="text">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+									sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+									Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+									 commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+									  dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+									   sunt in culpa qui officia deserunt mollit anim id est laborum.
+								</p>
+							</div>	
+						</div>
+						<div class="email-card">
+							<img src="images/logo.png" alt="">
+							<p class="date" hidden>2020/20/12</p>
+							<div class="name">
+								<p>Andrew Duncan</p>
+							</div>
+							<div class="sub">
+								<p >Assignment 2 Submission</p>
+							</div>
+							<div class="text">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+									sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+									Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+									 commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+									  dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+									   sunt in culpa qui officia deserunt mollit anim id est laborum.
+								</p>
+							</div>	
+						</div>
+					</div>
+						
+					
 					<!-- Email Preview -->
-					<div class="email-preview"></div>
-				</div>
+					<div class="email-preview">
+						<!-- Header -->
+						<div class="head">
+							<img src="images/logo.png" alt="">
+							<h5>Andrew Duncan</h5>
+							<p class="dat">12/12/2020 at 12:39pm</p>
+						</div>
+
+						<!-- Subject of Email -->
+						<h3>Assignment 2 Submission</h3>
+
+						<!-- Email Body -->
+						<div class="msg">
+							<p >
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+								sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+								Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+								commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+								dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+								sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+								sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+								Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+								commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+								dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+								sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+								
+							</p>
+						</div>
+						
+					</div>
+				<!-- </div> -->
 				
 
 				
@@ -86,8 +275,6 @@
 			</div>
 		</div>
 	</div>
-
-
 
 
 <!--===============================================================================================-->
@@ -106,6 +293,7 @@
 			scale: 1.1
 		});
 
+		//Display star icon when you hover over the options on the side
 		$(".side-menu").hover(
 			function(){
 				$(this).find(".hov").css("display", "flex");
@@ -114,6 +302,72 @@
 				$(".hov").css("display", "none");
 			}
 		);
+
+		//Show or hide side menu items on dropdown when the email is selected
+		$('#lab').on('click', function(){
+			if ($('#drop').hasClass('fas fa-angle-down')){
+				$('#drop').removeClass('fas fa-angle-down').addClass('fas fa-angle-right');
+				$('.side-menu').css('visibility', 'hidden');
+			}
+			else{
+				$('#drop').removeClass('fas fa-angle-right').addClass('fas fa-angle-down');
+				$('.side-menu').css('visibility', 'visible');
+			}
+		});
+
+		//Adjust the view when the slider is toggled
+		$('.slider').on('click', function(){
+			if ($('.emails').hasClass('email-slided')){
+				$('.side-nav').css('display', 'block');
+				$('.emails').removeClass('email-slided');
+				$('.email-preview').removeClass('preview-slided');
+				$('.options').removeClass('options-slided');
+				$('.wrap-input100').removeClass('search-slided');
+			}
+			else{
+				$('.side-nav').css('display', 'none');
+				$('.emails').addClass('email-slided');
+				$('.email-preview').addClass('preview-slided');
+				$('.options').addClass('options-slided');
+				$('.wrap-input100').addClass('search-slided');
+				$('.options').removeClass('options').addClass('options-selected');
+			}
+		});
+
+		//Inidicate when an email card has been selected
+		function select(id){
+            let exist = document.getElementsByClassName("selected");
+            if (exist.length > 0){
+                exist[0].classList.remove("selected");
+            }
+
+            if (id !== 'admin'){
+                $('.limiter').css('display', 'none');
+                $('.limiter').css('top', '-8%');
+            }else{
+                $('.limiter').css('display', 'flex');
+                $('.limiter').css('top', '0');
+            }
+
+            document.getElementById(id).classList.add("selected");
+        }
+
+		$('.email-card').on('click', function(){
+			let exist = document.getElementsByClassName("select");
+            if (exist.length > 0){
+                exist[0].classList.remove("select");
+            }
+
+			console.log($(this).closest('.email-card').children('img').attr('src'));
+			console.log($(this).closest('.email-card').children('.name').children('p').html());
+			console.log($(this).closest('.email-card').children('.sub').children('p').html());
+			console.log($(this).closest('.email-card').children('.text').children('p').html());
+			console.log($(this).closest('.email-card').children('.date').html());
+			
+			$(this).addClass('select');
+		});
+
+
 
 	</script>
 
