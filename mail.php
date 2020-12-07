@@ -330,7 +330,7 @@
 				$('.email-preview').addClass('preview-slided');
 				$('.options').addClass('options-slided');
 				$('.wrap-input100').addClass('search-slided');
-				$('.options').removeClass('options').addClass('options-selected');
+				// $('.options').removeClass('options').addClass('options-selected');
 			}
 		});
 
@@ -364,6 +364,8 @@
 			console.log($(this).closest('.email-card').children('.text').children('p').html());
 			console.log($(this).closest('.email-card').children('.date').html());
 			
+			$('.options li').css('color', 'rgb(81, 99, 138)')
+			$('.options li').css('cursor', 'pointer')
 			$(this).addClass('select');
 		});
 

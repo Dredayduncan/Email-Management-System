@@ -176,6 +176,7 @@ iframe {
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
+  height: 83vh;
 
   display: -webkit-box;
   display: -webkit-flex;
@@ -191,6 +192,7 @@ iframe {
 [  ]*/
 .login100-pic {
   width: 316px;
+  height: 100%;
 }
 
 .login100-pic img {
@@ -202,7 +204,14 @@ iframe {
 [  ]*/
 .login100-form {
   width: 290px;
+  transition: 2s ease-in-out;
 }
+
+.login100-form.validate-form.sign-up-mode {
+  transform: translateY(-150%);
+}
+
+
 
 .login100-form-title {
   font-family: Poppins-Bold;
@@ -214,6 +223,36 @@ iframe {
   width: 100%;
   display: block;
   padding-bottom: 54px;
+}
+
+/* -----------Sign Up----------- */
+.signup100-form {
+  position: relative;
+  width: 290px;
+  transition: 2s ease-in-out;
+  top: 10%;
+}
+
+.signup100-form.validate-form.sign-up-mode {
+  transform: translateY(-115%);
+}
+
+#pic{
+  position: relative; 
+  width:100px; 
+  border-radius: 80%; 
+  display: none; 
+  left: 35%; 
+  margin-bottom: -10%;
+}
+
+#pic-btn{
+  background-color: rgb(64, 104, 82);
+  cursor: pointer;
+}
+
+#pic-btn:hover{
+  background: #333333;
 }
 
 

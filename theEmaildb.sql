@@ -9,7 +9,8 @@ create table Person (
     gender enum("Male", "Female"),
     dob date,
     address varchar(255),
-    email varchar(255)
+    email varchar(255),
+    password varchar(15)
 );
 
 create table Telephone (

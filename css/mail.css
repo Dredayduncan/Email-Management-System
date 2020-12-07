@@ -96,27 +96,6 @@
     left: 65px;
 }
 
-/* ---------------When Slider is activated-------------------- */
-
-.preview-slided {
-    top: -62%;
-    height: 169%;
-}
-
-.email-slided {
-    left: -8.7%;
-	width: 55%;
-    top: -62%;
-    height: 169%;
-}
-
-.options-slided {
-    top: -23.5%;
-}
-
-.search-slided {
-    top: -11%;
-}
 /*---------------- New Message Button and Slider------------------*/
 
 .slider {
@@ -152,6 +131,7 @@
     justify-content: center;
     cursor: pointer;
     left: 4%;
+    top: -0.5%;
   }
   
 #btn #circle {
@@ -286,16 +266,10 @@
 }
 
 .options li {
-    /* color:  rgb(128, 166, 216); */
     color: #222;
     margin-left: 30px;
     list-style: none;
     
-}
-
-.options-selected{
-    cursor: pointer;
-    color:  rgb(102, 121, 148);
 }
 
 img {
@@ -327,7 +301,7 @@ img {
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 0px 130px 0px 95px;
-    height: 723px;
+    height: 724px;
 }
 
 .email-preview {
@@ -349,6 +323,35 @@ img {
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 177px 130px 33px 95px;
+}
+
+/* ---------------When Slider is activated-------------------- */
+
+.preview-slided {
+    top: 36%;
+    height: 126%;
+    /* left: 80%; */
+}
+
+.email-slided {
+    display: block;
+    position: relative;
+    margin-left: -79%;
+    width: 54.5%;
+    top: 36%;
+    height: 126%;
+}
+
+.email-slided .email-card {
+    width: 170%;
+}
+
+.options-slided {
+    top: -14.8%;
+}
+
+.search-slided {
+    top: -6.7%;
 }
 
 /* -------------Email Cards-------------- */
