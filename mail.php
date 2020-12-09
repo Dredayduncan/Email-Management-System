@@ -20,6 +20,28 @@
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/mail.css">
 <!--===============================================================================================-->
+<?php 
+	//Start a session
+	session_start();
+
+	if (!isset($_SESSION['userEmail'])){
+		header('Location: index.php');
+	}
+
+	// Destroy session on logout
+	function logout(){
+		header('Location: index.php'); 
+		session_destroy();
+	}
+
+	//Execute function of logout element has been clicked
+	if (isset($_GET['exit'])) {
+		logout();
+	  }
+
+?>
+<!--===============================================================================================-->
+
 </head>
 <body>
 
@@ -48,7 +70,15 @@
 						<li><i class="fa fa-reply-all"></i>&nbsp; Reply All</li>
 						<li><i class="fa fa-envelope-open"></i>&nbsp; Mark As Unread</li>
 						<li><i class="fa fa-trash"></i>&nbsp; Delete</li>
-						<li><img src="images/logo.png" alt=""></li>
+						<li><a href="mail.php?exit=true"><img href='index.php' height=45 src="<?php
+										if (isset($_SESSION['img'])){
+											echo $_SESSION['img'];
+										}
+										else{
+											echo '';
+										}
+									?>" alt="IMG"></a>
+						</li>
 					</div>
 				</div>
 				
@@ -56,7 +86,15 @@
 				<div class="side-nav">
 					<li id="lab" class='label'>
 						<i id="drop" class='fas fa-angle-down' style="font-size: 20px;"></i>
-						&nbsp; Email
+						&nbsp;<p> <?php
+										if (isset($_SESSION['userEmail'])){
+											echo $_SESSION['userEmail'];
+										}
+										else{
+											echo '';
+										}
+									?>
+						</p>
 					</li>
 					<li class='side-menu'>
 						<i class='fas fa-inbox'></i>
@@ -285,13 +323,7 @@
 <!--===============================================================================================-->
 	<script src="vendor/select2/select2.min.js"></script>
 <!--===============================================================================================-->
-	<script src="vendor/tilt/tilt.jquery.min.js"></script>
-	<!--===============================================================================================-->
-	<script src="js/mail.js"></script>
 	<script >
-		$('.js-tilt').tilt({
-			scale: 1.1
-		});
 
 		//Display star icon when you hover over the options on the side
 		$(".side-menu").hover(

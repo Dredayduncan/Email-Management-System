@@ -18,6 +18,14 @@
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
+<?php 
+	session_start();
+
+	if (isset($_GET['error'])){
+		echo "<script> alert('". $_GET['error']."') </script>";
+	}
+?>
+<!--===============================================================================================-->
 </head>
 <body>
 
@@ -30,13 +38,22 @@
 
 				<div class='forms-container'>
 						<!-- Sign In Form -->
-					<form class="login100-form validate-form" action="verification/login.php" id='logIn'>
+					<form class="login100-form validate-form" action="verification/login.php" id='logIn' method='POST'>
 						<span class="login100-form-title">
 							Member Login
 						</span>
 
 						<div class="wrap-input100 validate-input" data-validate = "Valid email is required!">
-							<input id="user" class="input100" type="text" name="email" placeholder="Email Address">
+							<input id="user" class="input100" type="text" name="email" placeholder="Email Address"
+							 value='<?php
+										if (isset($_SESSION['email'])){
+											echo $_SESSION['email'];
+										}
+										else{
+											echo '';
+										}
+									?>'
+							>
 							<span class="focus-input100"></span>
 							<span class="symbol-input100">
 								<i class="fa fa-user" aria-hidden="true"></i>
@@ -44,7 +61,16 @@
 						</div>
 
 						<div class="wrap-input100 validate-input" data-validate = "Password must be 8-15 characters and must contain lowercase, uppercase, and a number!">
-							<input id="pass" class="input100" type="password" name="pass" placeholder="Password">
+							<input id="pass" class="input100" type="password" name="pass" placeholder="Password"
+							 value='<?php
+										if (isset($_SESSION['password'])){
+											echo $_SESSION['password'];
+										}
+										else{
+											echo '';
+										}
+									?>'
+							>
 							<span class="focus-input100"></span>
 							<span class="symbol-input100">
 								<i class="fa fa-lock" aria-hidden="true"></i>
@@ -52,7 +78,7 @@
 						</div>
 
 						<div class="container-login100-form-btn">
-							<button class="login100-form-btn" form='logIn' id='login'>
+							<button class="login100-form-btn" form='logIn' id='login' type='submit'>
 								Login
 							</button>
 						</div>
@@ -76,13 +102,22 @@
 
 
 					<!-- Sign Up Form -->
-					<form class="signup100-form validate-form" action="verification/signUp.php" id='signUp'>
+					<form class="signup100-form validate-form" action="verification/signup.php" id='signUp' method='POST' enctype='multipart/form-data'>
 						<span class="login100-form-title">
 							Member Sign Up
 						</span>
 
-						<div class="wrap-input100 validate-input" data-validate = "Valid username is required!">
-							<input id="signUpUser" class="input100" type="text" name="email" placeholder="Email">
+						<div class="wrap-input100 validate-input" data-validate = "Valid Ashesi email is required!">
+							<input id="signUpUser" class="input100" type="text" name="email" placeholder="Email" 
+							value='<?php
+										if (isset($_SESSION['signUpemail'])){
+											echo $_SESSION['signUpemail'];
+										}
+										else{
+											echo '';
+										}
+									?>'
+							>
 							<span class="focus-input100"></span>
 							<span class="symbol-input100">
 								<i class="fa fa-user" aria-hidden="true"></i>
@@ -90,7 +125,16 @@
 						</div>
 
 						<div class="wrap-input100 validate-input" data-validate = "Password is required">
-							<input id="signUpPass" class="input100" type="password" name="pass" placeholder="Password">
+							<input id="signUpPass" class="input100" type="password" name="pass" placeholder="Password" 
+							value='<?php
+										if (isset($_SESSION['pass'])){
+											echo $_SESSION['pass'];
+										}
+										else{
+											echo '';
+										}
+									?>'
+							>
 							<span class="focus-input100"></span>
 							<span class="symbol-input100">
 								<i class="fa fa-lock" aria-hidden="true"></i>
@@ -106,14 +150,23 @@
 						</div>
 
 						<div class="wrap-input100 validate-input" data-validate = "Picture is required!">
-							<input type="file" id="picture" onchange="pictureInput(event)" style="display: none; " />
+							<input type="file" id="picture" onchange="pictureInput(event)" style="display: none;" name='file' />
 							<input id="pic-btn" type="button" class="login100-form-btn" value="Select Profile Picture..." onclick="document.getElementById('picture').click();" />
 							<span class="focus-input100"></span>
-							<img id="pic" height="80">
+							<img id="pic" height="80" 
+							src='<?php
+										if (isset($_SESSION['signUpimg'])){
+											echo $_SESSION['signUpimg'];
+										}
+										else{
+											echo '';
+										}
+									?>'
+							>
 						</div>
 
 						<div class="container-login100-form-btn">
-							<button class="login100-form-btn" form='signUp' name='submit' id="signup">
+							<button class="login100-form-btn" form='signUp' type='submit' id="signup">
 								Sign Up
 							</button>
 						</div>
@@ -147,6 +200,8 @@
 	<script src="js/main.js"></script>
 <!--===============================================================================================-->
 	<script >
+		$('#pic').attr('src', '');
+		
 		//Image skills
 		$('.js-tilt').tilt({
 			scale: 1.1
@@ -245,7 +300,7 @@
 			}
 
 			//Check if image has been selected
-			if (pic.length == 0){
+			if (pic.length == 0 || $('#pic').attr('src') == ''){
 				$('#pic-btn').css('background-color', 'red');
 				status = false;
 			}

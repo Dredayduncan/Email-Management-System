@@ -9,8 +9,9 @@ create table Person (
     gender enum("Male", "Female"),
     dob date,
     address varchar(255),
-    email varchar(255),
-    password varchar(15)
+    email varchar(255) UNIQUE,
+    password varchar(255),
+    image varchar(255)
 );
 
 create table Telephone (
@@ -145,7 +146,7 @@ insert into Person (fname, lname, gender, dob, address, email) values ("Ayorkor"
 insert into Person (fname, lname, gender, dob, address, email) values ("Patrick", "Dwumfuor", "Male", "1989-07-04", "A&C Mall East Legon", "patrick.dwumfuor@ashesi.edu.gh");
 insert into Person (fname, lname, gender, dob, address, email) values ("Eric", "Ocran", "Male", "1989-07-13", "Brown Road Kwabenya", "eric.ocran@ashesi.edu.gh");
 insert into Person (fname, lname, gender, dob, address, email) values ("Jewel", "Thompson", "Female", "1988-02-23", "Diamond Street Tema Community 1", "jewel.thompson@ashesi.edu.gh");
-insert into Person (fname, lname, gender, dob, address, email) values ("Takako", "Mino", "Female", "1987-02-16", "Lime Broom Road Spintex", "antoinette.okine@ashesi.edu.gh");
+insert into Person (fname, lname, gender, dob, address, email) values ("Takako", "Mino", "Female", "1987-02-16", "Lime Broom Road Spintex", "takako.mino@ashesi.edu.gh");
 insert into Person (fname, lname, gender, dob, address, email) values ("Araba", "Toffah", "Female", "1995-09-18", "Coca-Cola Roundabout Spintex", "araba.toffah@ashesi.edu.gh");
 insert into Person (fname, lname, gender, dob, address, email) values ("Jojoe", "Ainoo", "Male", "1997-04-21", "White Bridge St Weija", "jojoe.ainoo@ashesi.edu.gh");
 insert into Person (fname, lname, gender, dob, address, email) values ("Edinam", "Akporkavie", "Female", "1996-11-16", "Mango City Rd Airport Central", "edinam.akporkavie@ashesi.edu.gh");

@@ -76,11 +76,10 @@
 }
 
 .side-nav .label {
-    margin-left: 3rem;
+    margin-left: 2rem;
     height: 50px;
     display: flex;
     align-items: center;
-    margin-left: 3rem;
     font-size: larger;
     font-weight: 600;
     color: rgb(102, 121, 148);
@@ -88,6 +87,17 @@
     position: relative;
     border-radius: 9999px;
     cursor: pointer;
+}
+
+.side-nav .label i{
+    margin-top: -6%;
+}
+
+.side-nav .label p {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .hov {
@@ -404,7 +414,6 @@ img {
     line-height: 1em;
     overflow: hidden;
     white-space: nowrap;
-    /* white-space: nowrap; */
     text-overflow: ellipsis;
 }
 
