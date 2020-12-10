@@ -30,6 +30,7 @@
         session_start();
         $_SESSION['img'] = 'verification/uploads/'.$user['image'];
         $_SESSION['userEmail'] = $email;
+        $_SESSION['id'] = $user['perID'];
 
         //Reroute to email page
         header("Location: ../mail.php");

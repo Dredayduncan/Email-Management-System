@@ -114,6 +114,7 @@ create table Email_Sent (
     content text,
     dateSent date,
     timeSent time,
+    status enum('READ', 'UNREAD'),
     foreign key (perID) references Person (perID)
 );
 
@@ -131,27 +132,34 @@ create table EmailGroup_Recipient (
     foreign key (emailID) references Email_Sent(emailID)
 );
 
+create table Trash (
+    perID int,
+    emailID int,
+    foreign key (perID) references Person(perID),
+    foreign key (emailID) references Email_Sent(emailID)
+);
+
 #INSERTIONS
-insert into Person (fname, lname, gender, dob, address, email) values ("Antoinette", "Okyere", "Female", "1990-05-23", "Kwaku Moffat Close Dansoman Estates", "antoinette.okine@ashesi.edu.gh");
-insert into Person (fname, lname, gender, dob, address, email) values ("Akua", "Ampah", "Female", "1991-04-26", "Jerry Hansen Street Tema Community 5", "akua.ampah@ashesi.edu.gh");
-insert into Person (fname, lname, gender, dob, address, email) values ("Rejoice", "Agbleta", "Female", "1985-03-12", "Total Filling Station Baatsona", "rejoice.agbleta@ashesi.edu.gh");
-insert into Person (fname, lname, gender, dob, address, email) values ("Affum", "Alhassan", "Male", "1988-01-31", "Ring Road Central Accra", "affum.alhassan@ashesi.edu.gh");
-insert into Person (fname, lname, gender, dob, address, email) values ("Michael", "Quansah", "Male", "1993-06-15", "Straight Road Asylum Down", "michael.quansah@ashesi.edu.gh");
-insert into Person (fname, lname, gender, dob, address, email) values ("Andrew", "Duncan", "Male", "2000-05-23", "Orange Trail Street East Legon", "andrew.duncan@ashesi.edu.gh");
-insert into Person (fname, lname, gender, dob, address, email) values ("Burtina", "Graham", "Female", "2001-10-26", "Apple Grove Road Spintex", "burtina.graham@ashesi.edu.gh");
-insert into Person (fname, lname, gender, dob, address, email) values ("Derek", "Jacobs", "Male", "1999-05-23", "Steven Hawking Rd Cantonments", "derek.jacobs@ashesi.edu.gh");
-insert into Person (fname, lname, gender, dob, address, email) values ("Marie", "Aime", "Female", "1998-11-19", "Kwame Nkrumah St High Street", "marie.aimee@ashesi.edu.gh");
-insert into Person (fname, lname, gender, dob, address, email) values ("Madoc", "Quaye", "Male", "2001-12-16", "Movenpick Avenue Accra Central", "madoc.quaye@ashesi.edu.gh");
-insert into Person (fname, lname, gender, dob, address, email) values ("Ayorkor", "Korsah", "Female", "1987-01-01", "Pizza Inn Street West Legon", "ayorkor.korsah@ashesi.edu.gh");
-insert into Person (fname, lname, gender, dob, address, email) values ("Patrick", "Dwumfuor", "Male", "1989-07-04", "A&C Mall East Legon", "patrick.dwumfuor@ashesi.edu.gh");
-insert into Person (fname, lname, gender, dob, address, email) values ("Eric", "Ocran", "Male", "1989-07-13", "Brown Road Kwabenya", "eric.ocran@ashesi.edu.gh");
-insert into Person (fname, lname, gender, dob, address, email) values ("Jewel", "Thompson", "Female", "1988-02-23", "Diamond Street Tema Community 1", "jewel.thompson@ashesi.edu.gh");
-insert into Person (fname, lname, gender, dob, address, email) values ("Takako", "Mino", "Female", "1987-02-16", "Lime Broom Road Spintex", "takako.mino@ashesi.edu.gh");
-insert into Person (fname, lname, gender, dob, address, email) values ("Araba", "Toffah", "Female", "1995-09-18", "Coca-Cola Roundabout Spintex", "araba.toffah@ashesi.edu.gh");
-insert into Person (fname, lname, gender, dob, address, email) values ("Jojoe", "Ainoo", "Male", "1997-04-21", "White Bridge St Weija", "jojoe.ainoo@ashesi.edu.gh");
-insert into Person (fname, lname, gender, dob, address, email) values ("Edinam", "Akporkavie", "Female", "1996-11-16", "Mango City Rd Airport Central", "edinam.akporkavie@ashesi.edu.gh");
-insert into Person (fname, lname, gender, dob, address, email) values ("Ethel", "Adongo", "Female", "1995-08-03", "Flower Mangrove St McCarthy Hill", "ethel.adongo@ashesi.edu.gh");
-insert into Person (fname, lname, gender, dob, address, email) values ("Frederick", "Plange", "Male", "1996-03-31", "Blue Ivy St East Legon", "frederick.plange@ashesi.edu.gh");
+insert into Person (fname, lname, gender, dob, address, email, image) values ("Antoinette", "Okyere", "Female", "1990-05-23", "Kwaku Moffat Close Dansoman Estates", "antoinette.okine@ashesi.edu.gh", "user.jpg");
+insert into Person (fname, lname, gender, dob, address, email, image) values ("Akua", "Ampah", "Female", "1991-04-26", "Jerry Hansen Street Tema Community 5", "akua.ampah@ashesi.edu.gh", "user.jpg");
+insert into Person (fname, lname, gender, dob, address, email, image) values ("Rejoice", "Agbleta", "Female", "1985-03-12", "Total Filling Station Baatsona", "rejoice.agbleta@ashesi.edu.gh", "user.jpg");
+insert into Person (fname, lname, gender, dob, address, email, image) values ("Affum", "Alhassan", "Male", "1988-01-31", "Ring Road Central Accra", "affum.alhassan@ashesi.edu.gh", "user.jpg");
+insert into Person (fname, lname, gender, dob, address, email, image) values ("Michael", "Quansah", "Male", "1993-06-15", "Straight Road Asylum Down", "michael.quansah@ashesi.edu.gh", "user.jpg");
+insert into Person (fname, lname, gender, dob, address, email, image) values ("Andrew", "Duncan", "Male", "2000-05-23", "Orange Trail Street East Legon", "andrew.duncan@ashesi.edu.gh", "user.jpg");
+insert into Person (fname, lname, gender, dob, address, email, image) values ("Burtina", "Graham", "Female", "2001-10-26", "Apple Grove Road Spintex", "burtina.graham@ashesi.edu.gh", "user.jpg");
+insert into Person (fname, lname, gender, dob, address, email, image) values ("Derek", "Jacobs", "Male", "1999-05-23", "Steven Hawking Rd Cantonments", "derek.jacobs@ashesi.edu.gh", "user.jpg");
+insert into Person (fname, lname, gender, dob, address, email, image) values ("Marie", "Aime", "Female", "1998-11-19", "Kwame Nkrumah St High Street", "marie.aimee@ashesi.edu.gh", "user.jpg");
+insert into Person (fname, lname, gender, dob, address, email, image) values ("Madoc", "Quaye", "Male", "2001-12-16", "Movenpick Avenue Accra Central", "madoc.quaye@ashesi.edu.gh", "user.jpg");
+insert into Person (fname, lname, gender, dob, address, email, image) values ("Ayorkor", "Korsah", "Female", "1987-01-01", "Pizza Inn Street West Legon", "ayorkor.korsah@ashesi.edu.gh", "user.jpg");
+insert into Person (fname, lname, gender, dob, address, email, image) values ("Patrick", "Dwumfuor", "Male", "1989-07-04", "A&C Mall East Legon", "patrick.dwumfuor@ashesi.edu.gh", "user.jpg");
+insert into Person (fname, lname, gender, dob, address, email, image) values ("Eric", "Ocran", "Male", "1989-07-13", "Brown Road Kwabenya", "eric.ocran@ashesi.edu.gh", "user.jpg");
+insert into Person (fname, lname, gender, dob, address, email, image) values ("Jewel", "Thompson", "Female", "1988-02-23", "Diamond Street Tema Community 1", "jewel.thompson@ashesi.edu.gh", "user.jpg");
+insert into Person (fname, lname, gender, dob, address, email, image) values ("Takako", "Mino", "Female", "1987-02-16", "Lime Broom Road Spintex", "takako.mino@ashesi.edu.gh", "user.jpg");
+insert into Person (fname, lname, gender, dob, address, email, image) values ("Araba", "Toffah", "Female", "1995-09-18", "Coca-Cola Roundabout Spintex", "araba.toffah@ashesi.edu.gh", "user.jpg");
+insert into Person (fname, lname, gender, dob, address, email, image) values ("Jojoe", "Ainoo", "Male", "1997-04-21", "White Bridge St Weija", "jojoe.ainoo@ashesi.edu.gh", "user.jpg");
+insert into Person (fname, lname, gender, dob, address, email, image) values ("Edinam", "Akporkavie", "Female", "1996-11-16", "Mango City Rd Airport Central", "edinam.akporkavie@ashesi.edu.gh", "user.jpg");
+insert into Person (fname, lname, gender, dob, address, email, image) values ("Ethel", "Adongo", "Female", "1995-08-03", "Flower Mangrove St McCarthy Hill", "ethel.adongo@ashesi.edu.gh", "user.jpg");
+insert into Person (fname, lname, gender, dob, address, email, image) values ("Frederick", "Plange", "Male", "1996-03-31", "Blue Ivy St East Legon", "frederick.plange@ashesi.edu.gh", "user.jpg");
 
 
 insert into Telephone values (1, "0201234567", "0244123455");
@@ -336,41 +344,41 @@ insert into Manages values ("MATH300", 9, 14, "2", "B");
 insert into Manages values ("ECON102", 8, 13, "2", "A");
 insert into Manages values ("ECON102", 10, 15, "2", "B");
 
-insert into Email_Sent (perID, subject, content, dateSent, timeSent) values (1, "Townhall Meeting", "Are you ready for the townhall
- meeting at 3:40pm? Be There!", "2020-04-23", "15:00:21");
- insert into Email_Sent (perID, subject, content, dateSent, timeSent) values (1, "Townhall Meeting", "See you in a few! #Townhall", "2020-04-23", "15:15:21");
- insert into Email_Sent (perID, subject, content, dateSent, timeSent) values (3, "Bill Receipts", "Kindly find attached your receipt for bill payments, and take the necesaary actions to 
- address arrears", "2020-04-21", "11:38:00");
- insert into Email_Sent (perID, subject, content, dateSent, timeSent) values (1, "Townhall Meeting", "We start in 5 mintues!!! #townhall", "2020-04-23", "15:35:00");
- insert into Email_Sent (perID, subject, content, dateSent, timeSent) values (4, "Course Enrolment", "CAMU opens at 6pm for enrolment of courses for all majors
- and classes. Please endeavour to enrol into your required courses.", "2020-03-15", "12:00:21");
- insert into Email_Sent (perID, subject, content, dateSent, timeSent) values (11, "Lab Assignment 4", "our lab assignment 4 has been posted on canvas. Do not procrastinate
- because it is quite a handful.", "2020-04-23", "10:27:00");
- insert into Email_Sent (perID, subject, content, dateSent, timeSent) values (13, "Statistics Project", "This is to inform all of you that there will be PHD holders 
- and Masters Degree holders at the project exhibition. Use this information to go about your projects.", "2020-04-23", "8:03:00");
- insert into Email_Sent (perID, subject, content, dateSent, timeSent) values (20, "Lab Assignment 3", "Lab Assignment assignment 3 has been graded and recorded
- . Let me know if you have any issues and we will see how they can be resolved.", "2020-04-22", "14:00:21");
- insert into Email_Sent (perID, subject, content, dateSent, timeSent) values (1, "Townhall Meeting", "From SLE, we want to thank everyone to came out for townhall meeting and made
- it a success! We love you all!", "2020-04-24", "09:11:00");
- insert into Email_Sent (perID, subject, content, dateSent, timeSent) values (2, "Career Day!", "Career Services wants to send a big thank you to everyone made it a blast. From those
-  involved in the competitions and our very lovely ushers. We would like to express our gratitude today at 3:40pm in Norton Motulsky. Come for a treat!", "2020-04-22", "10:30:00");
-insert into Email_Sent (perID, subject, content, dateSent, timeSent) values (6, "Help with Stats", "Hey Burtina, Sorry I couldn't make it this evening to help with the Stats. I had some 
-trouble with my assignment as well. Can we reschedule?", "2020-04-24", "15:00:00");
- insert into Email_Sent (perID, subject, content, dateSent, timeSent) values (7, "Help with Stats", "Oh don't worry at all. I don't want to bother you, but we can always reschedule.
- Anytime at all.", "2020-04-24", "16:00:00");
- insert into Email_Sent (perID, subject, content, dateSent, timeSent) values (6, "Problem with Lab Assignment 3", "Hello Frederick, I encountered a mistake in the marking at number 
- 3 of the lab assignment 3. Can you please check it out and get back to me? Because the code runs fine on my laptop. Thank you.", "2020-04-23", "14:20:00");
- insert into Email_Sent (perID, subject, content, dateSent, timeSent) values (10, "Python Assignment", "Yo Andrew, I really need some help with my programming assigment.
-  Seems like I can't reach you on your phone that's why I'm sending this email.", "2020-04-22", "11:05:00");
- insert into Email_Sent (perID, subject, content, dateSent, timeSent) values (18, "Leadership Quiz", "There will be a quiz today at the beginning of class. Come prepared!", "2020-04-24", "8:00:00");
- insert into Email_Sent (perID, subject, content, dateSent, timeSent) values (6, "Finance Papers", "Hey Derek, do you have any of your mid sem papers for finance? 
- I want to use it to prepare for my exam.", "2020-04-21", "21:00:00");
- insert into Email_Sent (perID, subject, content, dateSent, timeSent) values (8, "Finance Papers", "Yeah I have one of them, I'll bring them over to your room this evening", "2020-04-21", "21:43:00");
- insert into Email_Sent (perID, subject, content, dateSent, timeSent) values (19, "Assignment 5", "Kindly find attached the handout for assignment 5.", "2020-04-24", "17:00:00");
- insert into Email_Sent (perID, subject, content, dateSent, timeSent) values (17, "Clarification on Assignment 3", "Hey Frederick, Dr. Korsah found some errors at number 3 in the assignment so alert your 
- students that we're making the necessary changes to their grades.", "2020-04-24", "09:17:00");
- insert into Email_Sent (perID, subject, content, dateSent, timeSent) values (15, "Appreciation Email", "Hey Burtina, I would like to commend you on your performance in the last deliverable. 
- I love how you strung everything together with consistency. I never lost focus or got bored, and the paper was really informative. You can give yourself a pat on the back for that one.", "2020-04-22", "14:15:21");
+insert into Email_Sent (perID, subject, content, dateSent, timeSent, status) values (1, "Townhall Meeting", "Are you ready for the townhall
+ meeting at 3:40pm? Be There!", "2020-04-23", "15:00:21", "UNREAD");
+ insert into Email_Sent (perID, subject, content, dateSent, timeSent, status) values (1, "Townhall Meeting", "See you in a few! #Townhall", "2020-04-23", "15:15:21", "UNREAD");
+ insert into Email_Sent (perID, subject, content, dateSent, timeSent, status) values (3, "Bill Receipts", "Kindly find attached your receipt for bill payments, and take the necesaary actions to 
+ address arrears", "2020-04-21", "11:38:00", "UNREAD");
+ insert into Email_Sent (perID, subject, content, dateSent, timeSent, status) values (1, "Townhall Meeting", "We start in 5 mintues!!! #townhall", "2020-04-23", "15:35:00", "UNREAD");
+ insert into Email_Sent (perID, subject, content, dateSent, timeSent, status) values (4, "Course Enrolment", "CAMU opens at 6pm for enrolment of courses for all majors
+ and classes. Please endeavour to enrol into your required courses.", "2020-03-15", "12:00:21", "UNREAD");
+ insert into Email_Sent (perID, subject, content, dateSent, timeSent, status) values (11, "Lab Assignment 4", "our lab assignment 4 has been posted on canvas. Do not procrastinate
+ because it is quite a handful.", "2020-04-23", "10:27:00", "UNREAD");
+ insert into Email_Sent (perID, subject, content, dateSent, timeSent, status) values (13, "Statistics Project", "This is to inform all of you that there will be PHD holders 
+ and Masters Degree holders at the project exhibition. Use this information to go about your projects.", "2020-04-23", "8:03:00", "UNREAD");
+ insert into Email_Sent (perID, subject, content, dateSent, timeSent, status) values (20, "Lab Assignment 3", "Lab Assignment assignment 3 has been graded and recorded
+ . Let me know if you have any issues and we will see how they can be resolved.", "2020-04-22", "14:00:21", "UNREAD");
+ insert into Email_Sent (perID, subject, content, dateSent, timeSent, status) values (1, "Townhall Meeting", "From SLE, we want to thank everyone to came out for townhall meeting and made
+ it a success! We love you all!", "2020-04-24", "09:11:00", "UNREAD");
+ insert into Email_Sent (perID, subject, content, dateSent, timeSent, status) values (2, "Career Day!", "Career Services wants to send a big thank you to everyone made it a blast. From those
+  involved in the competitions and our very lovely ushers. We would like to express our gratitude today at 3:40pm in Norton Motulsky. Come for a treat!", "2020-04-22", "10:30:00", "UNREAD");
+insert into Email_Sent (perID, subject, content, dateSent, timeSent, status) values (6, "Help with Stats", "Hey Burtina, Sorry I couldn't make it this evening to help with the Stats. I had some 
+trouble with my assignment as well. Can we reschedule?", "2020-04-24", "15:00:00", "UNREAD");
+ insert into Email_Sent (perID, subject, content, dateSent, timeSent, status) values (7, "Help with Stats", "Oh don't worry at all. I don't want to bother you, but we can always reschedule.
+ Anytime at all.", "2020-04-24", "16:00:00", "UNREAD");
+ insert into Email_Sent (perID, subject, content, dateSent, timeSent, status) values (6, "Problem with Lab Assignment 3", "Hello Frederick, I encountered a mistake in the marking at number 
+ 3 of the lab assignment 3. Can you please check it out and get back to me? Because the code runs fine on my laptop. Thank you.", "2020-04-23", "14:20:00", "UNREAD");
+ insert into Email_Sent (perID, subject, content, dateSent, timeSent, status) values (10, "Python Assignment", "Yo Andrew, I really need some help with my programming assigment.
+  Seems like I can't reach you on your phone that's why I'm sending this email.", "2020-04-22", "11:05:00", "UNREAD");
+ insert into Email_Sent (perID, subject, content, dateSent, timeSent, status) values (18, "Leadership Quiz", "There will be a quiz today at the beginning of class. Come prepared!", "2020-04-24", "8:00:00", "UNREAD");
+ insert into Email_Sent (perID, subject, content, dateSent, timeSent, status) values (6, "Finance Papers", "Hey Derek, do you have any of your mid sem papers for finance? 
+ I want to use it to prepare for my exam.", "2020-04-21", "21:00:00", "UNREAD");
+ insert into Email_Sent (perID, subject, content, dateSent, timeSent, status) values (8, "Finance Papers", "Yeah I have one of them, I'll bring them over to your room this evening", "2020-04-21", "21:43:00", "UNREAD");
+ insert into Email_Sent (perID, subject, content, dateSent, timeSent, status) values (19, "Assignment 5", "Kindly find attached the handout for assignment 5.", "2020-04-24", "17:00:00", "UNREAD");
+ insert into Email_Sent (perID, subject, content, dateSent, timeSent, status) values (17, "Clarification on Assignment 3", "Hey Frederick, Dr. Korsah found some errors at number 3 in the assignment so alert your 
+ students that we're making the necessary changes to their grades.", "2020-04-24", "09:17:00", "UNREAD");
+ insert into Email_Sent (perID, subject, content, dateSent, timeSent, status) values (15, "Appreciation Email", "Hey Burtina, I would like to commend you on your performance in the last deliverable. 
+ I love how you strung everything together with consistency. I never lost focus or got bored, and the paper was really informative. You can give yourself a pat on the back for that one.", "2020-04-22", "14:15:21", "UNREAD");
 
 insert into Email_Recipient values (7, 11);
 insert into Email_Recipient values (6, 12);
@@ -416,7 +424,7 @@ limit 1) as T);
 
 #Get the senders and recipients of emails within a specific period
 select Email_Sent.emailID, Email_Sent.perID as SenderID,
-	Email_Sent.dateSent, Email_Sent.timeSent,
+	Email_Sent.dateSent, Email_Sent.timeSent, status,
     Email_Recipient.perID as RecipientID, T.groupID as GroupRecipientID
 from Email_Sent
 	left join Email_Recipient
@@ -438,7 +446,7 @@ on staffID = nonTeachingID);
 
 #Retrieve the overall information for email senders within a specific period
 select Person.fname, Person.lname, Person.email, Telephone.number1, Email_Sent.subject,
- Email_Sent.content, Email_Sent.dateSent, Email_Sent.timeSent, Email_Recipient.fname, EmailGroupRecipients.name
+ Email_Sent.content, Email_Sent.dateSent, Email_Sent.timeSent, status, Email_Recipient.fname, EmailGroupRecipients.name
 from Email_Sent
 inner join Telephone
 on Email_Sent.perID = Telephone.perID

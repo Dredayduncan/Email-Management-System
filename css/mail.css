@@ -73,6 +73,7 @@
     position: relative;
     border-radius: 9999px;
     cursor: pointer;
+    text-align: center;
 }
 
 .side-nav .label {
@@ -104,6 +105,26 @@
     display: none;
     position: relative;
     left: 65px;
+}
+
+/* ------------------ when a side menu is selected ----------------- */
+.chosen {			
+    background-color: #737a7e;
+    margin-left: 2em;
+    padding-left: 2.5em;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-bottom: .25rem;
+    position: relative;
+    border-radius: 9999px;
+}
+
+.chosen .hov{
+    left: 50px;
 }
 
 /*---------------- New Message Button and Slider------------------*/
@@ -296,18 +317,14 @@ img {
 
 .emails {
     left: 13.5%;
-    margin-top: -31.5%;
+    margin-top: -36.5%;
     position: relative;
     background:rgb(140, 162, 190);
     width: 32%;
     border-radius: 10px;
     overflow-y: scroll;
     overflow-x: hidden;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
+    display: block;
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 0px 130px 0px 95px;
@@ -318,7 +335,7 @@ img {
     position: relative;
     width: 66%;
     left: 12%;
-    margin-top: -31.5%;
+    margin-top: -36.5%;
     height: 723px;
     background-color: rgb(31, 40, 58);
     border-radius: 10px;
@@ -338,7 +355,7 @@ img {
 /* ---------------When Slider is activated-------------------- */
 
 .preview-slided {
-    top: 36%;
+    top: 45.5%;
     height: 126%;
     /* left: 80%; */
 }
@@ -348,7 +365,7 @@ img {
     position: relative;
     margin-left: -79%;
     width: 54.5%;
-    top: 36%;
+    top: 45.5%;
     height: 126%;
 }
 
@@ -412,14 +429,11 @@ img {
     margin-top: -6px;
     font-size: x-small;
     line-height: 1em;
+    color: #9ea8ad;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-
-/* .date {
-    visibility: hidden;
-} */
 
 /* -------------------Email Preview Content--------------------- */
 .head {
