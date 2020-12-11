@@ -73,7 +73,8 @@ create table Staff (
 
 create table Email_Group (
 	groupID tinyint auto_increment primary key,
-    name varchar(50)
+    name varchar(50),
+    image varchar(255)
 );
 
 create table Person_Email (
@@ -248,17 +249,17 @@ insert into FI values (14, "NSS");
 insert into FI values (15, "NSS"); 
 
 
-insert into Email_Group (name) values ("Students");
-insert into Email_Group (name) values ("Staff and Faculty");
-insert into Email_Group (name) values ("Class of 2022");
-insert into Email_Group (name) values ("Class of 2023");
-insert into Email_Group (name) values ("Class of 2021");
-insert into Email_Group (name) values ("Class of 2020");
-insert into Email_Group (name) values ("Ashesi Community");
-insert into Email_Group (name) values ("Data Structures");
-insert into Email_Group (name) values ("Statistics");
-insert into Email_Group (name) values ("Leadership");
-insert into Email_Group (name) values ("Computer Engineering");
+insert into Email_Group (name, image) values ("Students", "user.jpg");
+insert into Email_Group (name, image) values ("Staff and Faculty", "user.jpg");
+insert into Email_Group (name, image) values ("Class of 2022", "user.jpg");
+insert into Email_Group (name, image) values ("Class of 2023", "user.jpg");
+insert into Email_Group (name, image) values ("Class of 2021", "user.jpg");
+insert into Email_Group (name, image) values ("Class of 2020", "user.jpg");
+insert into Email_Group (name, image) values ("Ashesi Community", "user.jpg");
+insert into Email_Group (name, image) values ("Data Structures", "user.jpg");
+insert into Email_Group (name, image) values ("Statistics", "user.jpg");
+insert into Email_Group (name, image) values ("Leadership", "user.jpg");
+insert into Email_Group (name, image) values ("Computer Engineering", "user.jpg");
 
 
 insert into Person_Email values (1, 2);

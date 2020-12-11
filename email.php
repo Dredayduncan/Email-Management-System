@@ -41,6 +41,41 @@
               on Email_Sent.emailID = T.emailID 
               where Email_Recipient.perID ='".$this->id."' or T.groupID= '7' order by dateSent DESC";
 
+            // Generate the email cards
+            return $this->generateEmailCards($sql);
+        }
+
+        //Get all emails sent by the user
+        public function sent(){
+            // Write the query to get sent
+            $sql = "SELECT Email_Sent.emailID, Email_Sent.perID as SenderID, Email_Sent.dateSent, Email_Sent.timeSent,
+                Email_Sent.subject, Email_Sent.content, Email_Recipient.perID as RecipientID, T.groupID as GroupRecipientID,
+                Person.image, Person.fname, Person.lname 
+                from Email_Sent 
+                left join Email_Recipient 
+                on Email_Sent.emailID = Email_Recipient.emailID 
+                left join Person 
+                on Email_Recipient.perID = Person.perID 
+                left join (select Email_Sent.emailID, EmailGroup_Recipient.groupID 
+                from Email_Sent inner join EmailGroup_Recipient 
+                on Email_Sent.emailID = EmailGroup_Recipient.emailID) as T 
+                on Email_Sent.emailID = T.emailID 
+                where Email_Sent.perID ='".$this->id."' order by dateSent DESC";
+
+            // Generate the email cards
+            return $this->generateEmailCards($sql);
+
+        }
+
+        public function trash(){
+
+        }
+
+        // Generate Email cards for a side menu. Takes in the query and generates the email cards
+        private function generateEmailCards($query){
+            // Write the query to get inbox
+            $sql = $query;
+
             // execute query
             $result = mysqli_query($this->conn, $sql);
 
@@ -53,35 +88,77 @@
                     echo $this->emailCard($data['image'], $data['dateSent'], $data['timeSent'], $data['fname'],
                     $data['lname'], $data['subject'], $data['content']);
                 }
+
+                //Update Email preview to view full email content when an email card is selected
+                echo $this->clickable();
             }
-        }
-
-        //Get all emails sent by the user
-        public function sent(){
-
-        }
-
-        public function trash(){
-
         }
 
         // Create an email card for each record in the email table in the database
         private function emailCard($img, $date, $time, $fname, $lname, $subject, $content){
+            // Get the time that'll be displayed on the
+
+            $timespan = date('m/d/Y', strtotime($date.' '.$time));
+            $current = strtotime(date("Y-m-d"));
+
+            $dat = strtotime($date);
+            $time = date('h:i', strtotime($time));
+
+            $datediff = $dat - $current;
+            $difference = floor($datediff/(60*60*24));
+            if($difference==0){
+                $timespan = 'Today';
+            }
+            else if($difference > -1 && $difference < 0){
+                $timespan = 'Yesterday';
+            } 
+
             return "<div class='email-card'>
             <img src='verification/uploads/".$img."' alt='IMG'>
+            <span class='dot'></span>
             <p class='date' hidden>".$date."</p>
             <p class='time' hidden>".$time."</p>
             <div class='name'>
                 <p>".$fname.' '.$lname."</p>
             </div>
             <div class='sub'>
-                <p>".$subject."</p>
+                <p>".$subject."</p><p class='timespan'>".$timespan."</p>
             </div>
             <div class='text'>
                 <p> ".$content."</p>
             </div>	
         </div>";
 
+        }
+
+        //Update Email Preview on email card selection
+        private function clickable(){
+            echo "<script>
+                $('.email-card').on('click', function(){
+                let exist = document.getElementsByClassName('select');
+                if (exist.length > 0){
+                    exist[0].classList.remove('select');
+                }
+    
+                let img = $(this).closest('.email-card').children('img').attr('src');
+                let name = $(this).closest('.email-card').children('.name').children('p').html();
+                let subject = $(this).closest('.email-card').children('.sub').children('p').html();
+                let content = $(this).closest('.email-card').children('.text').children('p').html();
+                let date = $(this).closest('.email-card').children('.date').html();
+                let time = $(this).closest('.email-card').children('.time').html();
+                
+                $('.options li').css('color', 'rgb(81, 99, 138)')
+                $('.options li').css('cursor', 'pointer')
+                $(this).addClass('select');
+    
+                //display full email in email-preview
+                $.get('Email.php', {preview: 'true', img: img, name: name, sub: subject, content: content, date: date, time: time}, function(data){
+                    $('.email-preview').html(data);
+                });
+    
+            });
+            </script>
+        ";
         }
     }
 
@@ -116,8 +193,37 @@
         <!-- Email Body -->
         <div class='msg'>
             <p>".$content."</p>
-        </div>";
+        </div>
+        
+        <script>
+            $('.email-preview .timespan').css('display', 'none');
+
+        </script>
+        ";
     }
+
+
+    // Check if ajax request has been received
+    if (isset($_GET['menu'])){
+        $menu = new Email($_GET['id'], $_GET['email'], $conn);
+        // Dislay respective information of selected side menu
+        switch ($_GET['menu']) {
+            
+            case 'inbox':
+                $menu->inbox();
+                break;
+            case 'sent':
+                $menu->sent();
+                break;
+            case 'trash':
+                $menu->trash();
+                break;
+            default:
+                echo "";
+                break;
+        }
+    }
+    
 
 
 ?>

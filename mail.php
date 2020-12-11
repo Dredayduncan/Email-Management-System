@@ -15,8 +15,6 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
 <!--===============================================================================================-->
-	<link rel="shortcut icon" href="#">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/mail.css">
 <!--===============================================================================================-->
@@ -41,6 +39,11 @@
 		logout();
 	}
 
+	// Check for error and display the error
+	if (isset($_GET['error'])){
+		echo "<script> alert('". $_GET['error']."') </script>";
+	}
+
 ?>
 <!--===============================================================================================-->
 
@@ -62,16 +65,15 @@
 						<div id="circle"></div>
 					</div>
 
-					<div class='wrap-input100 validate-input'>
-						<input class='input100' type='text' name='search' placeholder='Search'>
+					<div id='searchbar' class='wrap-input100 validate-input'>
+						<input id='search' class='input100' type='text' name='search' placeholder='Search'>
 						<span class='focus-input100' data-placeholder='&#xf002;'></span>
 					</div>
 
 					<div class="options">
 						<li><i class="fa fa-reply"></i> &nbsp; Reply</li>
-						<li><i class="fa fa-reply-all"></i>&nbsp; Reply All</li>
-						<li><i class="fa fa-envelope-open"></i>&nbsp; Mark As Unread</li>
-						<li><i class="fa fa-trash"></i>&nbsp; Delete</li>
+						<li><i class="fa fa-envelope"></i>&nbsp; Mark As Unread</li>
+						<li id='delete'><i class="fa fa-trash"></i>&nbsp; Delete</li>
 						<li><a href="mail.php?exit=true"><img href='index.php' height=45 src="<?php
 										if (isset($_SESSION['img'])){
 											echo $_SESSION['img'];
@@ -98,19 +100,22 @@
 									?>
 						</p>
 					</li>
-					<li class='side-menu'>
+					<li id="inbox" class='side-menu'>
 						<i class='fas fa-inbox'></i>
 						&nbsp; Inbox
+						<div class='indicate'> <p></p></div>
 						<i class='hov fas fa-star'></i>
 					</li>
-					<li class='side-menu'>
+					<li id="sent" class='side-menu'>
 						<i class='far fa-paper-plane'></i>
 						&nbsp; Sent
+						<div class='indicate'> <p></p></div>
 						<i class='hov fas fa-star'></i>
 					</li>
-					<li class='side-menu'>
+					<li id="trash" class='side-menu'>
 						<i class='fas fa-trash'></i>
 						&nbsp; Trash
+						<div class='indicate'> <p></p></div>
 						<i class='hov fas fa-star'></i>
 					</li>
 					<li class='side-menu'>
@@ -119,55 +124,26 @@
 						<i class='hov fa fa-star'></i>
 					</li>
 
+					<!-- <li id='group' class='label'>
+						<i id="drop" class='fas fa-angle-down'></i>
+						&nbsp; &nbsp;
+						<i class='fa fa-users'></i>
+						&nbsp; Groups
+						<i class='hov fa fa-star'></i>
+						
+						<li id="inbox" class='side-menu sub-menu'>
+							&nbsp; <p>Inboxsdgasdhgdhfdghrwhrwhrhgrghrghrehrw</p> 
+							<i class='hov fas fa-star'></i>
+						</li>
+					</li> -->
+
 				</div>
 
 					<!-- Emails listing -->
-					<div class="emails">
-						<?php 
-							$email = new Email($_SESSION['id'], $_SESSION['userEmail'], $conn);
-							$email->inbox();
-						?>
-					</div>
+					<div class="emails"></div>
 						
-					
 					<!-- Email Preview -->
-					<div class="email-preview">
-						<!-- Header -->
-						<!-- <div class="head">
-							<img src="images/logo.png" alt="">
-							<h5>Andrew Duncan</h5>
-							<p class="dat">12/12/2020 at 12:39pm</p>
-						</div> -->
-
-						<!-- Subject of Email -->
-						<!-- <h3>Assignment 2 Submission</h3> -->
-
-						<!-- Email Body -->
-						<!-- <div class="msg">
-							<p>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-								sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-								Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-								commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-								dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-								sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-								sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-								Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-								commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-								dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-								sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-								
-							</p>
-						</div>
-						 -->
-					</div>
-				<!-- </div> -->
-				
-
-				
+					<div class="email-preview"></div>
 				
 			</div>
 		</div>
@@ -183,10 +159,28 @@
 	<script src="vendor/select2/select2.min.js"></script>
 <!--===============================================================================================-->
 	<script >
+		//Display new email template when new message button is clicked
+		$('#btn').on('click', function(){
+			//Get and display email template
+			$.get('utility/control.php', {newEmail: true}, function(data){
+                $('.email-preview').html(data);
+			});
+			
+			// Get appropriate menu bar
+			$.get('utility/control.php', {menu: 'true'}, function(data){
+                $('.options').html(data);
+			});
+		});
+
 		// Indicate when side menu is selected
 		$(".side-menu").on('click', function(){
 			$('.side-nav').find('.chosen').removeClass('chosen').addClass('side-menu');
 			$(this).removeClass('side-menu').addClass('chosen');
+
+			//display email cards for selected side menu
+            $.get('Email.php', {menu: this.id, id: <?=json_encode($_SESSION['id']);?>, email: <?=json_encode($_SESSION['userEmail']) ?>}, function(data){
+                $('.emails').html(data);
+            });
 			
 		});
 
@@ -232,47 +226,25 @@
 			}
 		});
 
-		//Inidicate when an email card has been selected
-		function select(id){
-            let exist = document.getElementsByClassName("selected");
-            if (exist.length > 0){
-                exist[0].classList.remove("selected");
-            }
+		// Move deleted email to trash
+		$('#delete').on('click', function(){
+			// console.log($('.select').html());
+			// let img = $('.select').children('img').attr('src');
+			let name = $('.select').children('.name').children('p').html();
+			let subject = $('.select').children('.sub').children('p').html();
+			let content = $('.select').children('.text').children('p').html();
+			let date = $('.select').children('.date').html();
+			let time = $('.select').children('.time').html();
+			// console.log(name);
+			// console.log(subject);
+			// console.log(content);
+			// console.log(date);
+			// console.log(time);
 
-            if (id !== 'admin'){
-                $('.limiter').css('display', 'none');
-                $('.limiter').css('top', '-8%');
-            }else{
-                $('.limiter').css('display', 'flex');
-                $('.limiter').css('top', '0');
-            }
-
-            document.getElementById(id).classList.add("selected");
-        }
-
-		//Change email preview based on selected email card
-		$('.email-card').on('click', function(){
-			let exist = document.getElementsByClassName("select");
-            if (exist.length > 0){
-                exist[0].classList.remove("select");
-            }
-
-			let img = $(this).closest('.email-card').children('img').attr('src');
-			let name = $(this).closest('.email-card').children('.name').children('p').html();
-			let subject = $(this).closest('.email-card').children('.sub').children('p').html();
-			let content = $(this).closest('.email-card').children('.text').children('p').html();
-			let date = $(this).closest('.email-card').children('.date').html();
-			let time = $(this).closest('.email-card').children('.time').html();
-			
-			$('.options li').css('color', 'rgb(81, 99, 138)')
-			$('.options li').css('cursor', 'pointer')
-			$(this).addClass('select');
-
-			//display full email in email-preview
-            $.get('Email.php', {preview: 'true', img: img, name: name, sub: subject, content: content, date: date, time: time}, function(data){
-                $('.email-preview').html(data);
-            });
-
+			//delete selected email card
+			$.get('Email.php', {delete: 'true', name: name, sub: subject, content: content, date: date, time: time}, function(data){
+				// $('.email-preview').html(data);
+			});
 		});
 
 		// Select inbox by default

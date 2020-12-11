@@ -42,7 +42,6 @@
 
 .top-nav{
     position: relative;
-    /* background-color: red; */
     margin-top: -16%;
     left: -7%;
 }
@@ -56,7 +55,7 @@
     /* box-shadow: 1px 1px 3px #555 inset; */
     margin-top: -7%;
     /* height: 80vh; */
-    left: -86%;
+    left: -53%;
 }
 
 .side-nav li{
@@ -94,6 +93,40 @@
     margin-top: -6%;
 }
 
+.indicate {
+    position: relative;
+    color: rgb(40, 125, 221);
+    top: 15%;
+    left: 40%;
+}
+
+/* -----------------Group Section in Side Menu------------- */
+
+.side-nav .sub-menu{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-left: 4rem;
+    color:rgb(102, 121, 148);
+    margin-bottom: .25rem;
+    position: relative;
+    border-radius: 9999px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.side-nav #group i{
+    margin-top: 0;
+}
+
+.side-nav .sub-menu p{
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* ------------------------------------------------------------- */
 .side-nav .label p {
     width: 100%;
     overflow: hidden;
@@ -125,6 +158,10 @@
 
 .chosen .hov{
     left: 50px;
+}
+
+.chosen .indicate{
+    color: #c80000;
 }
 
 /*---------------- New Message Button and Slider------------------*/
@@ -202,11 +239,11 @@
  /*------------------Search Bar---------------------------*/ 
  /*[ Input ]*/
   
- .wrap-input100 {
+ #searchbar.wrap-input100 {
     width: 320px;
     position: relative;
-    top: -50px;
-    left: 218px;
+    top: -53px;
+    left: 305px;
     border-bottom: 2px solid  rgb(128, 166, 216);
     margin-bottom: 30px;
 }
@@ -291,8 +328,8 @@
 /*-------------- Menu Bar------------------ */
 .options {
     position: relative;
-    top: -110px;
-    left: 550px;
+    top: -112px;
+    left: 580px;
     display: inline-flex;
 }
 
@@ -307,7 +344,7 @@ img {
     position: relative;
     top: -30%;
     width: 50px;
-    left: 20px;
+    left: 100px;
     border-radius: 50%;
     border: 3px solid #222;
     cursor: pointer;
@@ -316,8 +353,8 @@ img {
 /*-----------Email divs-------------*/
 
 .emails {
-    left: 13.5%;
-    margin-top: -36.5%;
+    left: -54.5%;
+    margin-top: -12%;
     position: relative;
     background:rgb(140, 162, 190);
     width: 32%;
@@ -328,15 +365,15 @@ img {
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 0px 130px 0px 95px;
-    height: 724px;
+    height: 728px;
 }
 
 .email-preview {
     position: relative;
     width: 66%;
-    left: 12%;
-    margin-top: -36.5%;
-    height: 723px;
+    left: 46%;
+    margin-top: -69.6%;
+    height: 727px;
     background-color: rgb(31, 40, 58);
     border-radius: 10px;
     overflow: hidden;
@@ -355,18 +392,14 @@ img {
 /* ---------------When Slider is activated-------------------- */
 
 .preview-slided {
-    top: 45.5%;
-    height: 126%;
-    /* left: 80%; */
+    top: 0;
 }
 
 .email-slided {
-    display: block;
     position: relative;
-    margin-left: -79%;
+    margin-left: -50%;
     width: 54.5%;
-    top: 45.5%;
-    height: 126%;
+    top: 0;
 }
 
 .email-slided .email-card {
@@ -374,7 +407,7 @@ img {
 }
 
 .options-slided {
-    top: -14.8%;
+    top: -14.5%;
 }
 
 .search-slided {
@@ -403,9 +436,10 @@ img {
 }
 
 .email-card img {
-    left: -40%;
+    left: -38%;
     top: 9%;
     border: 3px solid rgb(129, 118, 118);
+    height: 48px;
 }
 
 .email-card div{
@@ -422,17 +456,43 @@ img {
 
 .sub {
     font-size: small;
+    display: flex;
+}
+
+.sub p {
+    margin-top: -6px;
+    width: 100%;
+    line-height: 1.5em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .text p{
     width: 75%;
-    margin-top: -6px;
+    margin-top: -13px;
     font-size: x-small;
     line-height: 1em;
     color: #9ea8ad;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.timespan {
+    position: relative;
+    color: #9ea8ad;
+}
+
+.dot {
+    height: 10px;
+    width: 10px;
+    left: -48%;
+    top: 55%;
+    background-color: rgb(40, 125, 221);
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
 }
 
 /* -------------------Email Preview Content--------------------- */
@@ -467,14 +527,14 @@ img {
 .email-preview h3 {
     position: relative;
     color: #fff;
-    top: -60%;
+    margin-top: -77%;
     left: -8%;
+    margin-bottom: 10%;
 }
 
 .msg{
     position: absolute;
     color: #fff;
-    text-align: justify;
     left: 8%;
     top: 25%;
 }
@@ -484,38 +544,97 @@ img {
     width: 92%;
 }
 
-
-
-
-
-/* .dp {
-    margin-top: 20px;
-    margin-left: 5px;
-    width: 50px;
-    border-radius: 50%;
-    border: 3px solid #fff;
-    height: 40px;
-    color: pink;
-} */
-
-
-/* .has-val.input100 + .focus-input100::after {
-    top: -22px;
-    font-size: 18px;
-}
-
-.has-val.input100 + .focus-input100::before {
-    width: 100%;
-}
-
-.has-val.input100 {
-    padding-left: 5px;
-} */
-
-/* .preview{
+/* -------------------------- New Email--------------------- */
+.wrap-input100 {
+    width: 230%;
     position: relative;
-    margin-top: -13%;
+    border-bottom: 2px solid rgba(255,255,255,0.24);
+    margin-bottom: 10px;
+    margin-left: -20%;
+}
+
+textarea.wrap-input100 {
     width: 100%;
-    left: -55%;
-    overflow: visible;
-} */
+    margin-left: 0%;
+    background-color: transparent;
+    border: 0;
+    color: #fff;
+    outline: none;
+}
+
+.form-container {
+    position: relative;
+    margin-top: -37%;   
+}
+
+.email-preview .input100:focus{
+    color: #fff;
+}
+
+.email-preview .input100:focus + .focus-input100::after{
+    color: rgb(140, 162, 190);
+}
+
+.email-preview .focus-input100::before{
+    background: #fff;
+}
+
+/* ---------------------------- Alert for Validation-------------------- */
+.validate-input {
+    position: relative;
+}
+
+.alert-validate::before {
+    content: attr(data-validate);
+    position: absolute;
+    max-width: 70%;
+    background-color: white;
+    border: 1px solid #c80000;
+    border-radius: 13px;
+    padding: 4px 25px 4px 10px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    right: 8px;
+    pointer-events: none;
+
+    font-family: Poppins-Medium;
+    color: #c80000;
+    font-size: 13px;
+    line-height: 1.4;
+    text-align: left;
+
+    visibility: hidden;
+    opacity: 0;
+
+    -webkit-transition: opacity 0.4s;
+    -o-transition: opacity 0.4s;
+    -moz-transition: opacity 0.4s;
+    transition: opacity 0.4s;
+}
+
+.alert-validate::after {
+    content: "\f06a";
+    font-family: FontAwesome;
+    display: block;
+    position: absolute;
+    color: #c80000;
+    font-size: 15px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    right: 13px;
+}
+
+.alert-validate:hover:before {
+    visibility: visible;
+    opacity: 1;
+}
+
+
