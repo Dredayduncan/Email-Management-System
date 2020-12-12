@@ -134,9 +134,10 @@ create table EmailGroup_Recipient (
 );
 
 create table Trash (
-    perID int,
+    senderID int,
     emailID int,
-    foreign key (perID) references Person(perID),
+    recipientID int,
+    deleterID int,
     foreign key (emailID) references Email_Sent(emailID)
 );
 

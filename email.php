@@ -1,6 +1,9 @@
 <?php
     include "verification/config.php";
 
+    // start session
+    session_start();
+
     //Email Class
     class Email{
 
@@ -16,12 +19,69 @@
         }
 
         //Generate data based on what was searched
-        public function search($data){
+        public function search($data, $menu){
+            // Write the query to get the results for the search data
+            $sql = '';
 
-        }
+            // Assign appropriate query
+            if ($menu == 'inbox'){
+                $sql = "SELECT Email_Sent.emailID, Email_Sent.perID as SenderID, Email_Sent.dateSent, Email_Sent.timeSent,
+                        Email_Sent.subject, Email_Sent.content, Email_Recipient.perID as RecipientID, T.groupID as GroupRecipientID,
+                        Person.image, Person.fname, Person.lname, Person.email 
+                        from Email_Sent 
+                        left join Email_Recipient 
+                        on Email_Sent.emailID = Email_Recipient.emailID 
+                        left join Person 
+                        on Email_Sent.perID = Person.perID 
+                        left join (select Email_Sent.emailID, EmailGroup_Recipient.groupID 
+                        from Email_Sent inner join EmailGroup_Recipient 
+                        on Email_Sent.emailID = EmailGroup_Recipient.emailID) as T 
+                        on Email_Sent.emailID = T.emailID 
+                        where Email_Recipient.perID ='".$this->id."' or T.groupID= '7' 
+                        and Email_Sent.subject like '%".$data."%' or Email_Sent.content like '%".$data."%' or Person.fname like '%".$data."%' 
+                        or Person.lname like '%".$data."%' or Person.email like '%".$data."%' order by dateSent DESC";
+            }
+            elseif ($menu == 'sent'){
+                $sql = "SELECT Email_Sent.emailID, Email_Sent.perID as SenderID, Email_Sent.dateSent, Email_Sent.timeSent,
+                        Email_Sent.subject, Email_Sent.content, Email_Recipient.perID as RecipientID, T.groupID as GroupRecipientID,
+                        Person.image, Person.fname, Person.lname, Person.email 
+                        from Email_Sent 
+                        left join Email_Recipient 
+                        on Email_Sent.emailID = Email_Recipient.emailID 
+                        left join Person 
+                        on Email_Recipient.perID = Person.perID 
+                        left join (select Email_Sent.emailID, EmailGroup_Recipient.groupID 
+                        from Email_Sent inner join EmailGroup_Recipient 
+                        on Email_Sent.emailID = EmailGroup_Recipient.emailID) as T 
+                        on Email_Sent.emailID = T.emailID 
+                        where Email_Sent.perID ='".$this->id."'
+                        and Email_Sent.subject like '%".$data."%' or Email_Sent.content like '%".$data."%' or Person.fname like '%".$data."%' 
+                        or Person.lname like '%".$data."%' or Person.email like '%".$data."%' order by dateSent DESC";
 
-        public function newMessage(){
+            }
+            elseif ($menu == 'trash'){
+                $sql = "SELECT Email_Sent.emailID, Email_Sent.perID as SenderID, Email_Sent.dateSent, Email_Sent.timeSent,
+                        Email_Sent.subject, Email_Sent.content, Email_Recipient.perID as RecipientID, T.groupID as GroupRecipientID,
+                        Person.image, Person.fname, Person.lname, Person.email, Trash.deleterID 
+                        from Email_Sent 
+                        left join Email_Recipient 
+                        on Email_Sent.emailID = Email_Recipient.emailID 
+                        left join Trash 
+                        on Email_Sent.emailID = Trash.emailID
+                        left join Person 
+                        on Email_Sent.perID = Person.perID 
+                        left join (select Email_Sent.emailID, EmailGroup_Recipient.groupID 
+                        from Email_Sent inner join EmailGroup_Recipient 
+                        on Email_Sent.emailID = EmailGroup_Recipient.emailID) as T 
+                        on Email_Sent.emailID = T.emailID 
+                        where Trash.deleterID ='".$this->id."'
+                        and Email_Sent.subject like '%".$data."%' or Email_Sent.content like '%".$data."%' or Person.fname like '%".$data."%' 
+                        or Person.lname like '%".$data."%' or Person.email like '%".$data."%' order by dateSent DESC";
+            }
+            
 
+            // Generate the email cards
+            return $this->generateEmailCards($sql);
         }
 
         //Get inbox of the user
@@ -29,7 +89,7 @@
             // Write the query to get inbox
             $sql = "SELECT Email_Sent.emailID, Email_Sent.perID as SenderID, Email_Sent.dateSent, Email_Sent.timeSent,
              Email_Sent.subject, Email_Sent.content, Email_Recipient.perID as RecipientID, T.groupID as GroupRecipientID,
-              Person.image, Person.fname, Person.lname 
+              Person.image, Person.fname, Person.lname, Person.email 
               from Email_Sent 
               left join Email_Recipient 
               on Email_Sent.emailID = Email_Recipient.emailID 
@@ -50,7 +110,7 @@
             // Write the query to get sent
             $sql = "SELECT Email_Sent.emailID, Email_Sent.perID as SenderID, Email_Sent.dateSent, Email_Sent.timeSent,
                 Email_Sent.subject, Email_Sent.content, Email_Recipient.perID as RecipientID, T.groupID as GroupRecipientID,
-                Person.image, Person.fname, Person.lname 
+                Person.image, Person.fname, Person.lname, Person.email 
                 from Email_Sent 
                 left join Email_Recipient 
                 on Email_Sent.emailID = Email_Recipient.emailID 
@@ -68,7 +128,25 @@
         }
 
         public function trash(){
+            // Write the query to get sent
+            $sql = "SELECT Email_Sent.emailID, Email_Sent.perID as SenderID, Email_Sent.dateSent, Email_Sent.timeSent,
+             Email_Sent.subject, Email_Sent.content, Email_Recipient.perID as RecipientID, T.groupID as GroupRecipientID,
+              Person.image, Person.fname, Person.lname, Person.email, Trash.deleterID 
+              from Email_Sent 
+              left join Email_Recipient 
+              on Email_Sent.emailID = Email_Recipient.emailID 
+              left join Trash 
+              on Email_Sent.emailID = Trash.emailID
+              left join Person 
+              on Email_Sent.perID = Person.perID 
+              left join (select Email_Sent.emailID, EmailGroup_Recipient.groupID 
+              from Email_Sent inner join EmailGroup_Recipient 
+              on Email_Sent.emailID = EmailGroup_Recipient.emailID) as T 
+              on Email_Sent.emailID = T.emailID 
+              where Trash.deleterID ='".$this->id."' order by Email_Sent.dateSent DESC";
 
+            // Generate the email cards
+            return $this->generateEmailCards($sql);
         }
 
         // Generate Email cards for a side menu. Takes in the query and generates the email cards
@@ -86,7 +164,7 @@
                 // Create an email card for each record returned and print them in the mail page
                 while ($data = mysqli_fetch_array($result)){
                     echo $this->emailCard($data['image'], $data['dateSent'], $data['timeSent'], $data['fname'],
-                    $data['lname'], $data['subject'], $data['content']);
+                    $data['lname'], $data['subject'], $data['content'], $data['email']);
                 }
 
                 //Update Email preview to view full email content when an email card is selected
@@ -95,14 +173,14 @@
         }
 
         // Create an email card for each record in the email table in the database
-        private function emailCard($img, $date, $time, $fname, $lname, $subject, $content){
+        private function emailCard($img, $date, $time, $fname, $lname, $subject, $content, $email){
             // Get the time that'll be displayed on the
 
             $timespan = date('m/d/Y', strtotime($date.' '.$time));
             $current = strtotime(date("Y-m-d"));
 
             $dat = strtotime($date);
-            $time = date('h:i', strtotime($time));
+            // $time = date('h:i', strtotime($time));
 
             $datediff = $dat - $current;
             $difference = floor($datediff/(60*60*24));
@@ -118,6 +196,7 @@
             <span class='dot'></span>
             <p class='date' hidden>".$date."</p>
             <p class='time' hidden>".$time."</p>
+            <p class='senderEmail' hidden>".$email."</p>
             <div class='name'>
                 <p>".$fname.' '.$lname."</p>
             </div>
@@ -223,7 +302,15 @@
                 break;
         }
     }
-    
 
+    // Check if ajax request has been received and return results for what was search for
+    if (isset($_GET['search'])){
+        // Create Email object
+        $menu = new Email($_SESSION['id'], $_SESSION['userEmail'], $conn);
+
+        // Return results
+        $menu->search($_GET['info'], $_GET['table']);
+        
+    }
 
 ?>

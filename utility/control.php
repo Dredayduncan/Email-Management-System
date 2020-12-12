@@ -20,7 +20,7 @@
     //Generate new email template
     function newMessage(){
         echo "<div class='form-container'>
-        <form id='form' action='utility/newEmail.php' method='POST'>
+        <form id='form' action='utility/emailFunctions.php' method='POST'>
             <div class='wrap-input100 validate-input' data-validate = 'Input cannot be empty or is invalid!'>
                 <input disabled class='input100' type='text' name='id' placeholder='".$_SESSION['userEmail']."'>
                 <span class='focus-input100' data-placeholder='&#xf056;'></span>

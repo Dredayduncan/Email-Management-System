@@ -637,4 +637,40 @@ textarea.wrap-input100 {
     opacity: 1;
 }
 
+/* -------------------- Adjust Screen With Size -------------------*/
+@media (max-width: 870px){
+    .email-preview{
+        display: none;
+    }
+
+    
+}
+
+@media (max-width: 570px){
+    .email-preview{
+        display: none;
+    }
+
+    .emails{
+        margin-left: 54.5%;
+        margin-top: 20%;
+        display: block;
+        width: 120%;
+        padding: 0px 64% 0px 36%;
+        height: 100%;
+    }
+
+    .wrap-login100{
+        /* overflow: scroll; */
+        padding: 0;
+    }
+
+    .top-nav{
+        display: none;
+    }
+
+    .side-nav{
+        display: none;
+    }
+}
 

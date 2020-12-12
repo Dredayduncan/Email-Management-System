@@ -21,8 +21,6 @@
 <?php 
 	include "email.php";
 	include "verification/config.php";
-	//Start a session
-	session_start();
 
 	if (!isset($_SESSION['userEmail'])){
 		header('Location: index.php');
@@ -177,6 +175,33 @@
 			$('.side-nav').find('.chosen').removeClass('chosen').addClass('side-menu');
 			$(this).removeClass('side-menu').addClass('chosen');
 
+			// When the Trash menu has been selected
+			if ($('.side-nav').find('.chosen').attr('id') == 'trash'){
+				$('.options').children('li').eq(0).html('<i class="fas fa-trash-restore" aria-hidden="true"></i>  Restore');
+				$('.options').children('li').eq(0).attr('id', 'restore');
+
+				// Restore deleted email
+				$('#restore').on('click', function(){
+			
+					// Get details of the email
+					let name = $('.select').children('.name').children('p').html();
+					let subject = $('.select').children('.sub').children('p').html();
+					let date = $('.select').children('.date').html();
+					let time = $('.select').children('.time').html();
+					let senderEmail = $('.select').children('.senderEmail').html();
+
+					//restore the email 
+					$.get('utility/emailFunctions.php', {restore: 'true', name: name.split(' ')[0], sub: subject, 
+						date: date, time: time, email: senderEmail}, function(data){
+						location.replace('mail.php');
+						
+					});
+				});
+			}else{
+				$('.options').children('li').eq(0).html('<i class="fa fa-reply"></i> &nbsp; Reply');
+				$('.options').children('li').eq(0).attr('id', '');
+			}
+
 			//display email cards for selected side menu
             $.get('Email.php', {menu: this.id, id: <?=json_encode($_SESSION['id']);?>, email: <?=json_encode($_SESSION['userEmail']) ?>}, function(data){
                 $('.emails').html(data);
@@ -228,23 +253,45 @@
 
 		// Move deleted email to trash
 		$('#delete').on('click', function(){
-			// console.log($('.select').html());
-			// let img = $('.select').children('img').attr('src');
+			// Grab data
 			let name = $('.select').children('.name').children('p').html();
 			let subject = $('.select').children('.sub').children('p').html();
-			let content = $('.select').children('.text').children('p').html();
 			let date = $('.select').children('.date').html();
 			let time = $('.select').children('.time').html();
-			// console.log(name);
-			// console.log(subject);
-			// console.log(content);
-			// console.log(date);
-			// console.log(time);
+			let senderEmail = $('.select').children('.senderEmail').html();
 
-			//delete selected email card
-			$.get('Email.php', {delete: 'true', name: name, sub: subject, content: content, date: date, time: time}, function(data){
-				// $('.email-preview').html(data);
-			});
+			let menu = $('.side-nav').find('.chosen').attr('id');
+
+			if (menu === 'trash'){
+				//delete selected email card from Trash
+				$.get('utility/emailFunctions.php', {menu: menu, name: name.split(' ')[0], sub: subject, 
+					date: date, time: time, email: senderEmail}, function(data){
+					location.replace('mail.php');
+				});
+			}
+			else{
+				//delete selected email card
+				$.get('utility/emailFunctions.php', {delete: menu, name: name.split(' ')[0], sub: subject, 
+					date: date, time: time, email: senderEmail}, function(data){
+					location.replace('mail.php');
+				});
+			}	
+		});
+
+		// Get emails that match what has been search
+		$('#search').keyup(function(){
+			if (document.getElementById('search').value.length == 0){
+				//display email cards for selected side menu
+				$.get('Email.php', {menu: $('.side-nav').find('.chosen').attr('id'), id: <?=json_encode($_SESSION['id']);?>, email: <?=json_encode($_SESSION['userEmail']) ?>}, function(data){
+                	$('.emails').html(data);
+            	});
+			}
+			else{
+				$.get('Email.php', {search: 'true', info: document.getElementById('search').value, table: $('.side-nav').find('.chosen').attr('id')}, function(data){
+					$('.emails').html(data);
+				});
+			}
+			
 		});
 
 		// Select inbox by default
