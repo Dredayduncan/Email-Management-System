@@ -19,7 +19,7 @@
 	<link rel="stylesheet" type="text/css" href="css/mail.css">
 <!--===============================================================================================-->
 <?php 
-	include "email.php";
+	include "Email.php";
 	include "verification/config.php";
 
 	if (!isset($_SESSION['userEmail'])){
@@ -41,6 +41,11 @@
 	if (isset($_GET['error'])){
 		echo "<script> alert('". $_GET['error']."') </script>";
 	}
+
+	// if (isset($_GET['current'])){
+	// 	echo "<script> $('#".$_GET['current']."').click(); </script>";
+	// 	// echo "<script> alert('". $_GET['current']."') </script>";
+	// }
 
 ?>
 <!--===============================================================================================-->
@@ -70,7 +75,7 @@
 
 					<div class="options">
 						<li><i class="fa fa-reply"></i> &nbsp; Reply</li>
-						<li><i class="fa fa-envelope"></i>&nbsp; Mark As Unread</li>
+						<li id='mark'><i class="fa fa-envelope"></i>&nbsp; Mark As Unread</li>
 						<li id='delete'><i class="fa fa-trash"></i>&nbsp; Delete</li>
 						<li><a href="mail.php?exit=true"><img href='index.php' height=45 src="<?php
 										if (isset($_SESSION['img'])){
@@ -136,12 +141,15 @@
 					</li> -->
 
 				</div>
-
+					
+				<div class='email-container'>
 					<!-- Emails listing -->
 					<div class="emails"></div>
 						
 					<!-- Email Preview -->
 					<div class="email-preview"></div>
+				</div>
+					
 				
 			</div>
 		</div>
@@ -159,6 +167,7 @@
 	<script >
 		//Display new email template when new message button is clicked
 		$('#btn').on('click', function(){
+			$('.side-nav').css('margin-left', '3%');
 			//Get and display email template
 			$.get('utility/control.php', {newEmail: true}, function(data){
                 $('.email-preview').html(data);
@@ -168,6 +177,8 @@
 			$.get('utility/control.php', {menu: 'true'}, function(data){
                 $('.options').html(data);
 			});
+
+			
 		});
 
 		// Indicate when side menu is selected
@@ -292,6 +303,36 @@
 				});
 			}
 			
+		});
+
+		// Mark and email as unread
+		$('#mark').on('click', function(){
+			// Grab data
+			let name = $('.select').children('.name').children('p').html();
+			let subject = $('.select').children('.sub').children('p').html();
+			let date = $('.select').children('.date').html();
+			let time = $('.select').children('.time').html();
+			let senderEmail = $('.select').children('.senderEmail').html();
+
+			if ($('.chosen').attr('id') === 'sent'){
+                        senderEmail = <?=json_encode($_SESSION['userEmail']);?>;
+                        name = '';
+                    }
+
+			// Temporarily increment unread number of emails value
+			let current = $('.chosen').find('.indicate p').html();
+			if (current === ''){
+				current = 0;
+			}
+			$('.chosen').find('.indicate p').html(parseInt(current) + 1);
+			$('<span class="dot"></span>').insertAfter('.select img');
+			
+
+			$.post('utility/emailFunctions.php', {unread: true, name: name.split(' ')[0], sub: subject, 
+				date: date, time: time, mail: senderEmail}, function(data){
+				// location.replace('mail.php?current=', $(this).attr('id'));
+				return;
+			});
 		});
 
 		// Select inbox by default

@@ -64,6 +64,7 @@
         // Check if query was executed    
         if (!$res){
             // Redirect back to mail page with error message
+            die("ERROR: Could not able to execute $query. " . mysqli_error($conn));
             header('Location: ../mail.php?error=Email Could Not Be Sent!');
             die;
         }
@@ -93,8 +94,8 @@
     }
 
     //-------------------- DELETING AN EMAIL------------------------------ //
-    // Get the id of the email that has been selected for deletion
-    function getEmailToDelete($name, $subject, $date, $time, $email, $conn){
+    // Get the id of the email that has been selected 
+    function getSelectedEmail($subject, $date, $time, $email, $conn){
         // Write the query to get inbox
         $sql = "SELECT Email_Sent.emailID, Email_Sent.perID as SenderID, Email_Sent.dateSent, Email_Sent.timeSent,
                 Email_Sent.subject, Email_Sent.content, Email_Recipient.perID as RecipientID, T.groupID as GroupRecipientID,
@@ -109,17 +110,17 @@
                 on Email_Sent.emailID = EmailGroup_Recipient.emailID) as T 
                 on Email_Sent.emailID = T.emailID 
                 where Email_Sent.perID ='".$email."' and Email_Sent.dateSent ='".$date."' and Email_Sent.timeSent ='".$time."'
-                and Email_Sent.subject ='".$subject."' and Person.fname ='".$name."'";
+                and Email_Sent.subject ='".$subject."'";
 
          // execute query
          $result = mysqli_query($conn, $sql);
 
          if ($result){
              // get query result as an array
-            $email = mysqli_fetch_assoc($result);
+            $mail = mysqli_fetch_assoc($result);
 
             // get emailID
-            return $emailID = $email['emailID'];
+            return $emailID = $mail['emailID'];
          }
          else{
             die("ERROR: Could not able to execute $sql. " . mysqli_error($conn));
@@ -227,27 +228,43 @@
 
 //--------------------------- RESTORING AN EMAIL------------------------------ //
 
-// Move selected email to inbox from trash 
-function restoreToInbox($emailID, $conn){
-    // Write the query to get inbox
-    $sql = 'INSERT into Email_Recipient (perID, emailID) values ('.$_SESSION['id'].', '.$emailID.')';
+    // Move selected email to inbox from trash 
+    function restoreToInbox($emailID, $conn){
+        // Write the query to get inbox
+        $sql = 'INSERT into Email_Recipient (perID, emailID) values ('.$_SESSION['id'].', '.$emailID.')';
 
-    // execute query
-    $result = mysqli_query($conn, $sql);
+        // execute query
+        $result = mysqli_query($conn, $sql);
 
-    if ($result){
-        // throw an alert that email has been moved to trash
-        deleteFromTrash($emailID, $conn);
-        header('Location: ../mail.php?error=Email has been restored');
+        if ($result){
+            // throw an alert that email has been moved to trash
+            deleteFromTrash($emailID, $conn);
+            header('Location: ../mail.php?error=Email has been restored');
+        }
+        else{
+            die("ERROR: Could not able to execute $sql. " . mysqli_error($conn));
+        }
     }
-    else{
-        die("ERROR: Could not able to execute $sql. " . mysqli_error($conn));
-    }
-}
 
-function deleteFromTrash($email, $conn){
+    function deleteFromTrash($email, $conn){
+        // Write the query to get inbox
+        $sql = 'DELETE from Trash where emailID ='.$email.' and deleterID ='.$_SESSION['id'];
+
+        // execute query
+        $result = mysqli_query($conn, $sql);
+
+        if (!$result){
+            die("ERROR: Could not able to execute $sql. " . mysqli_error($conn));
+        }
+    }
+
+//--------------------- MARK EMAIL AS READ OR UNREAD---------------------- //
+
+// Mark the selected email as read
+function markAsRead($emailID, $conn){
+
     // Write the query to get inbox
-    $sql = 'DELETE from Trash where emailID ='.$email.' and deleterID ='.$_SESSION['id'];
+    $sql = 'UPDATE Email_Sent SET status = "READ" WHERE emailID ='.$emailID;
 
     // execute query
     $result = mysqli_query($conn, $sql);
@@ -257,7 +274,19 @@ function deleteFromTrash($email, $conn){
     }
 }
 
+// Mark the selected email as unread
+function markAsUnread($emailID, $conn){
 
+    // Write the query to get inbox
+    $sql = 'UPDATE Email_Sent SET status = "UNREAD" WHERE emailID ='.$emailID;
+
+    // execute query
+    $result = mysqli_query($conn, $sql);
+
+    if (!$result){
+        die("ERROR: Could not able to execute $sql. " . mysqli_error($conn));
+    }
+}
 
 
     
@@ -275,7 +304,7 @@ function deleteFromTrash($email, $conn){
         $mailID = getRecipient($email, $conn);
 
         // Get the id of the email to be deleted
-        $id = getEmailToDelete($name, $subject, $date, $time, $mailID, $conn);
+        $id = getSelectedEmail($subject, $date, $time, $mailID, $conn);
 
         // Get the details of the email in the recipient table
         $details = getRecipientDetails($id, $conn);
@@ -296,7 +325,7 @@ function deleteFromTrash($email, $conn){
         $mailID = getRecipient($email, $conn);
 
         // Get the id of the email to be deleted
-        $id = getEmailToDelete($name, $subject, $date, $time, $mailID, $conn);
+        $id = getSelectedEmail($subject, $date, $time, $mailID, $conn);
 
         // Write the query to get inbox
         $sql = 'DELETE FROM Trash WHERE emailID ='. $id;
@@ -325,12 +354,51 @@ function deleteFromTrash($email, $conn){
         // Get the ID of the sender of the email
         $mailID = getRecipient($email, $conn);
 
-        // Get the id of the email to be deleted
-        $id = getEmailToDelete($name, $subject, $date, $time, $mailID, $conn);
+        // Get the id of the email to be restored
+        $id = getSelectedEmail($subject, $date, $time, $mailID, $conn);
 
         // Restore the selected email
         restoreToInbox($id, $conn);
     }
+
+    // If email card has been clicked to be marked as read
+    elseif(isset($_POST['read'])){
+         // Get posted data
+        //  $name = $_POST['name'];
+         $subject = $_POST['sub'];
+         $date = $_POST['date'];
+         $time = $_POST['time'];
+         $email = $_POST['mail'];
+
+        // Get the ID of the sender of the email
+        $mailID = getRecipient($email, $conn);
+
+        // Get the id of the email to be marked as read
+        $id = getSelectedEmail($subject, $date, $time, $mailID, $conn);
+
+        // Mark email as read
+        markAsRead($id, $conn);
+    }
+
+    // If Mark as Unread button has been clicked
+    elseif(isset($_POST['unread'])){
+        // Get posted data
+        $name = $_POST['name'];
+        $subject = $_POST['sub'];
+        $date = $_POST['date'];
+        $time = $_POST['time'];
+        $email = $_POST['mail'];
+
+       // Get the ID of the sender of the email
+       $mailID = getRecipient($email, $conn);
+
+       // Get the id of the email to be marked as read
+       $id = getSelectedEmail($subject, $date, $time, $mailID, $conn);
+
+       // Mark email as unread
+       markAsUnread($id, $conn);
+   }
+
     else{
         // If delete was not selected then you're here because the send email button was clicked so send the email
         // Grab form data

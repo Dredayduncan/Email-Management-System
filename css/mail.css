@@ -27,14 +27,14 @@
     background: #d6d8d9;
     border-radius: 10px;
     overflow: hidden;
-
+    transition: 0.5s ease-in-out;
     display: -webkit-box;
     display: -webkit-flex;
     display: -moz-box;
     display: -ms-flexbox;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     padding: 177px 130px 33px 95px;
 }
 
@@ -352,8 +352,17 @@ img {
 
 /*-----------Email divs-------------*/
 
+.email-container {
+    position:relative;
+    display: flex; 
+    margin-top:-25%; 
+    height: 105%; 
+    left:13%; 
+    width:100%;
+}
+
 .emails {
-    left: -54.5%;
+    /* left: -54.5%; */
     margin-top: -12%;
     position: relative;
     background:rgb(140, 162, 190);
@@ -364,16 +373,16 @@ img {
     display: block;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 0px 130px 0px 95px;
-    height: 728px;
+    padding: 0px 0px 0px 95px;
+    /* height: 100%; */
+    transition: 0.5s ease-in-out;
 }
 
 .email-preview {
     position: relative;
-    width: 66%;
-    left: 46%;
-    margin-top: -69.6%;
-    height: 727px;
+    width: 66.5%;
+    margin-left: 0.5%;
+    margin-top: -12%;
     background-color: rgb(31, 40, 58);
     border-radius: 10px;
     overflow: hidden;
@@ -385,8 +394,8 @@ img {
     overflow-x: hidden;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 177px 130px 33px 95px;
+    padding: 177px 130px 33px 295px;
+    transition: 0.5s ease-in-out;
 }
 
 /* ---------------When Slider is activated-------------------- */
@@ -436,7 +445,7 @@ img {
 }
 
 .email-card img {
-    left: -38%;
+    left: -39%;
     top: 9%;
     border: 3px solid rgb(129, 118, 118);
     height: 48px;
@@ -498,21 +507,22 @@ img {
 /* -------------------Email Preview Content--------------------- */
 .head {
     position: relative;
-    display: inline-flex;
+    display: flex;
     color: #fff;
     top: -20%;
-    left: -7%;
+    left: -80%;
 }
 
 .head h5 {
-    margin-top: -4%;
+    margin-top: -10%;
     margin-left: -2%;
 }
 
 .head .dat {
     position: relative;
-    left: 51%;
-    margin-top: -4%;
+    display: flex;
+    left: 80%;
+    margin-top: -10%;
 }
 
 .email-preview img {
@@ -527,8 +537,8 @@ img {
 .email-preview h3 {
     position: relative;
     color: #fff;
-    margin-top: -77%;
-    left: -8%;
+    margin-top: -125%;
+    left: -89%;
     margin-bottom: 10%;
 }
 
@@ -564,7 +574,9 @@ textarea.wrap-input100 {
 
 .form-container {
     position: relative;
-    margin-top: -37%;   
+    margin-top: -65%;   
+    margin-left: -70%;
+    /* left: -80%; */
 }
 
 .email-preview .input100:focus{

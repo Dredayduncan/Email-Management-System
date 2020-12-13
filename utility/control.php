@@ -61,6 +61,7 @@
             //Remove email template when discard has been clicked
             $('#discard').on('click', function(){
                 $('.email-preview').html('');
+                $('.side-nav').css('margin-left', '0%');
 
                 // Get appropriate menu bar
                 $.get('utility/control.php', {menu: false}, function(data){

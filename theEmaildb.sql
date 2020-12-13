@@ -112,7 +112,7 @@ create table Email_Sent (
 	emailID int auto_increment primary key,
 	perID int,
     subject varchar(255),
-    content text,
+    content mediumtext,
     dateSent date,
     timeSent time,
     status enum('READ', 'UNREAD'),
