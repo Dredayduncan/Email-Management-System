@@ -3,7 +3,7 @@
     session_start();
 
     // Get the id of the recipient of the email
-    function getRecipient($email, $conn){
+    function getPersonID($email, $conn){
         // Write query
         $sql = 'SELECT perID FROM Person WHERE email = "'.$email.'"';
 
@@ -98,18 +98,51 @@
     function getSelectedEmail($subject, $date, $time, $email, $conn){
         // Write the query to get inbox
         $sql = "SELECT Email_Sent.emailID, Email_Sent.perID as SenderID, Email_Sent.dateSent, Email_Sent.timeSent,
-                Email_Sent.subject, Email_Sent.content, Email_Recipient.perID as RecipientID, T.groupID as GroupRecipientID,
-                Person.image, Person.fname, Person.lname, Person.email
+                Email_Sent.subject, Email_Sent.content, Email_Recipient.perID as RecipientID, EmailGroup_Recipient.groupID as GroupRecipientID,
+                Person.image, Person.fname, Person.lname, Person.email, Email_Sent.status, Email_Group.name as groupName, Email_Group.groupID, Email_Group.image as groupImage
                 from Email_Sent 
                 left join Email_Recipient 
                 on Email_Sent.emailID = Email_Recipient.emailID 
                 left join Person 
-                on Email_Sent.perID = Person.perID 
-                left join (select Email_Sent.emailID, EmailGroup_Recipient.groupID 
-                from Email_Sent inner join EmailGroup_Recipient 
-                on Email_Sent.emailID = EmailGroup_Recipient.emailID) as T 
-                on Email_Sent.emailID = T.emailID 
+                on Email_Recipient.perID = Person.perID 
+                left join EmailGroup_Recipient 
+                on Email_Sent.emailID = EmailGroup_Recipient.emailID
+                left join Email_Group
+                on Email_Group.groupID = EmailGroup_Recipient.groupID
                 where Email_Sent.perID ='".$email."' and Email_Sent.dateSent ='".$date."' and Email_Sent.timeSent ='".$time."'
+                and Email_Sent.subject ='".$subject."'";
+
+         // execute query
+         $result = mysqli_query($conn, $sql);
+
+         if ($result){
+             // get query result as an array
+            $mail = mysqli_fetch_assoc($result);
+
+            // get emailID
+            return $emailID = $mail['emailID'];
+         }
+         else{
+            die("ERROR: Could not able to execute $sql. " . mysqli_error($conn));
+         }
+    }
+
+    // Get id of email from Trash
+    function getEmailFromTrash($subject, $date, $time, $deleterID, $conn, $recipientID){
+        // Write the query to get inbox
+        $sql = "SELECT Email_Sent.emailID, Email_Sent.perID as SenderID, Email_Sent.dateSent, Email_Sent.timeSent,
+                Email_Sent.subject, Email_Sent.content, Email_Group.groupID as groupID, Email_Group.name as groupName,
+                Email_Group.image as groupImage,
+                Person.image, Person.fname, Person.lname, Person.email, Email_Sent.status, Trash.deleterID, Trash.senderID, Trash.recipientID 
+                FROM Trash
+                left join Email_Sent
+                on Email_Sent.emailID = Trash.emailID
+                left join Person
+                on Person.perID = Trash.recipientID
+                left join Email_Group
+                on Email_Group.groupID = Trash.grouprecipientID
+                where Trash.deleterID = '".$deleterID."' and Trash.recipientID = '".$recipientID."' and Email_Sent.dateSent ='".$date."' 
+                and Email_Sent.timeSent ='".$time."'
                 and Email_Sent.subject ='".$subject."'";
 
          // execute query
@@ -146,12 +179,12 @@
             $status = true;
 
             if ($recipient == ''){
-                $recipientID = getGroupRecipientDetails($emailID, $conn)[1];
+                $recipientID = getGroupRecipientDetails($emailID, $conn)[0];
                 $status = false;
             }
         
             // Return the details of the email
-            return array($emailID, $recipientID, $status);
+            return array($recipientID, $status);
         }
         else{
             die("ERROR: Could not able to execute $sql. " . mysqli_error($conn));
@@ -172,10 +205,9 @@
 
             // Get recipient ID
             $recipientID = $recipient['groupID'];
-            $status = false;
         
             // Return the details of the email
-            return array($emailID, $recipientID);
+            return array($recipientID, false);
         }
         else{
             die("ERROR: Could not able to execute $sql. " . mysqli_error($conn));
@@ -185,15 +217,20 @@
     // Insert the email into the trash table
     function moveToTrash($senderID, $recipientID, $emailID, $conn, $status){
         // Write the query to get inbox
-        $sql = 'INSERT into Trash (senderID, emailID, recipientID, deleterID) 
+        $sql = 'INSERT into Trash (senderID, emailID, grouprecipientID, deleterID) 
         values ('.$senderID.', '.$emailID.', '.$recipientID.', '.$_SESSION['id'].')';
+
+        if ($status == 1){
+            $sql = 'INSERT into Trash (senderID, emailID, recipientID, deleterID) 
+            values ('.$senderID.', '.$emailID.', '.$recipientID.', '.$_SESSION['id'].')';
+        }
 
         // execute query
         $result = mysqli_query($conn, $sql);
 
         if ($result){
             // throw an alert that email has been moved to trash
-            deleteEmail($emailID, $conn, $status, '');
+            deleteEmail($emailID, $conn, $status);
             header('Location: ../mail.php?error=Email has been moved to trash');
         }
         else{
@@ -202,7 +239,7 @@
     }
 
     // Remove email from inbox 
-    function deleteEmail($email, $conn, $status, $tab){
+    function deleteEmail($email, $conn, $status){
         // Get the table we are deleting from
         $table = 'EmailGroup_Recipient';
 
@@ -229,9 +266,15 @@
 //--------------------------- RESTORING AN EMAIL------------------------------ //
 
     // Move selected email to inbox from trash 
-    function restoreToInbox($emailID, $conn){
+    function restoreEmail($emailID, $conn, $recipientID, $status){
+
         // Write the query to get inbox
-        $sql = 'INSERT into Email_Recipient (perID, emailID) values ('.$_SESSION['id'].', '.$emailID.')';
+        $sql = 'INSERT into Email_Recipient (perID, emailID) values ('.$recipientID.', '.$emailID.')';
+
+        // check if recipient is a group
+        if ($status == false){
+            $sql = 'INSERT into EmailGroup_Recipient (groupID, emailID) values ('.$recipientID.', '.$emailID.')';
+        }
 
         // execute query
         $result = mysqli_query($conn, $sql);
@@ -299,18 +342,46 @@ function markAsUnread($emailID, $conn){
         $date = $_GET['date'];
         $time = $_GET['time'];
         $email = $_GET['email'];
+
+        if ($_GET['delete'] == 'sent' && is_numeric($email)){
+            // Get the id of the email to be deleted
+            $id = getSelectedEmail($subject, $date, $time, $_SESSION['id'], $conn);
+            
+            // Get the details (emailID, repicientID, status) of the email in the recipient table
+            $details = getGroupRecipientDetails($id, $conn);
+
+            // Use the details to move the email to trash
+            moveToTrash( $_SESSION['id'], $details[0], $id, $conn, $details[1]);
+
+        }
+        elseif($_GET['delete'] == 'sent'){
+            // Get the ID of the sender of the email
+            // $mailID = getPersonID($email, $conn);
+
+            // Get the id of the email to be deleted
+            $id = getSelectedEmail($subject, $date, $time, $_SESSION['id'], $conn);
+
+            // Get the details (emailID, repicientID, status) of the email in the recipient table
+            $details = getRecipientDetails($id, $conn);
+
+            // Use the details to move the email to trash
+            moveToTrash($_SESSION['id'], $details[0], $id, $conn, $details[1]);
+        }
+        else{
+            // Get the ID of the sender of the email
+            $mailID = getPersonID($email, $conn);
+
+            // Get the id of the email to be deleted
+            $id = getSelectedEmail($subject, $date, $time, $mailID, $conn);
+
+            // Get the details (emailID, repicientID, status) of the email in the recipient table
+            $details = getRecipientDetails($id, $conn);
+
+            // Use the details to move the email to trash
+            moveToTrash($mailID, $details[0], $id, $conn, $details[1]);
+        }
         
-        // Get the ID of the sender of the email
-        $mailID = getRecipient($email, $conn);
-
-        // Get the id of the email to be deleted
-        $id = getSelectedEmail($subject, $date, $time, $mailID, $conn);
-
-        // Get the details of the email in the recipient table
-        $details = getRecipientDetails($id, $conn);
-
-        // Use the details to move the email to trash
-        moveToTrash($mailID, $details[1], $details[0], $conn, $details[2]);
+        
     }
 
     // If the delete has been selected in the trash menu
@@ -321,11 +392,26 @@ function markAsUnread($emailID, $conn){
         $time = $_GET['time'];
         $email = $_GET['email'];
         
-        // Get the ID of the sender of the email
-        $mailID = getRecipient($email, $conn);
+        // ID of sender
+        $mailID;
 
-        // Get the id of the email to be deleted
-        $id = getSelectedEmail($subject, $date, $time, $mailID, $conn);
+        // Email ID
+        $id;
+
+        // Check if the email was sent to a group and assign the email to the sender's id
+        if (is_numeric($email)){
+            $mailID = $email;
+
+            // Get the id of the email to be deleted
+            $id = getSelectedEmail($subject, $date, $time, $mailID, $conn);
+        }
+        else{
+            // Get the ID of the sender of the email
+            $mailID = getPersonID($email, $conn);
+
+            // Get the id of the email to be deleted
+            $id = getEmailFromTrash($subject, $date, $time, $_SESSION['id'], $conn, $mailID);
+        }
 
         // Write the query to get inbox
         $sql = 'DELETE FROM Trash WHERE emailID ='. $id;
@@ -350,15 +436,46 @@ function markAsUnread($emailID, $conn){
         $date = $_GET['date'];
         $time = $_GET['time'];
         $email = $_GET['email'];
-        
+
+        // // Get ID of the sender
+        // $mailID;
+
+        // // Get ID of the email
+        // $id;
+
+        // // Individual of group receipient
+        // $status = true;
+
+        // if (is_numeric($email)){
+        //     $mailID = $email;
+        //     $status = false;
+
+        //     // Get the id of the email to be deleted
+        //     $id = getSelectedEmail($subject, $date, $time, $mailID, $conn);
+
+        // }
+        // else{
+        //     // Get the ID of the sender of the email
+        //     $mailID = getPersonID($email, $conn);
+
+        //      // Get the id of the email to be restored
+        //     $id = getEmailFromTrash($subject, $date, $time, $_SESSION['id'], $conn, $mailID);
+        // }
+
+        // echo $id;
+        // die;
+
         // Get the ID of the sender of the email
-        $mailID = getRecipient($email, $conn);
+        $mailID = getPersonID($email, $conn);
 
         // Get the id of the email to be restored
         $id = getSelectedEmail($subject, $date, $time, $mailID, $conn);
 
         // Restore the selected email
-        restoreToInbox($id, $conn);
+        // restoreToInbox($id, $conn);
+        
+        // // Restore the selected email
+        restoreEmail($id, $conn, $mailID, true);
     }
 
     // If email card has been clicked to be marked as read
@@ -370,11 +487,33 @@ function markAsUnread($emailID, $conn){
          $time = $_POST['time'];
          $email = $_POST['mail'];
 
-        // Get the ID of the sender of the email
-        $mailID = getRecipient($email, $conn);
+        // Email ID
+        $id;
 
-        // Get the id of the email to be marked as read
-        $id = getSelectedEmail($subject, $date, $time, $mailID, $conn);
+        // If the unread button has been clicked in the trash menu
+        if ($_POST['read'] == 'trash'){
+            // Check if the email was sent to a group and assign the email to the sender's id
+            if (is_numeric($email)){
+                // ID of sender
+                $mailID = $email;
+
+                // Get the id of the email to be deleted
+                $id = getSelectedEmail($subject, $date, $time, $mailID, $conn);
+            }
+            else{
+                // Get the ID of the sender of the email
+                $mailID = getPersonID($email, $conn);
+
+                // Get the id of the email to be deleted
+                $id = getEmailFromTrash($subject, $date, $time, $_SESSION['id'], $conn, $mailID);
+            }
+        }else{
+            // Get the ID of the sender of the email
+            $mailID = getPersonID($email, $conn);
+
+            // Get the id of the email to be marked as read
+            $id = getSelectedEmail($subject, $date, $time, $mailID, $conn);
+        }
 
         // Mark email as read
         markAsRead($id, $conn);
@@ -389,11 +528,34 @@ function markAsUnread($emailID, $conn){
         $time = $_POST['time'];
         $email = $_POST['mail'];
 
-       // Get the ID of the sender of the email
-       $mailID = getRecipient($email, $conn);
+        // Email ID
+        $id;
 
-       // Get the id of the email to be marked as read
-       $id = getSelectedEmail($subject, $date, $time, $mailID, $conn);
+        // If the unread button has been clicked in the trash menu
+        if ($_POST['unread'] == 'trash'){
+            // Check if the email was sent to a group and assign the email to the sender's id
+            if (is_numeric($email)){
+                // ID of sender
+                $mailID = $email;
+
+                // Get the id of the email to be deleted
+                $id = getSelectedEmail($subject, $date, $time, $mailID, $conn);
+            }
+            else{
+                // Get the ID of the sender of the email
+                $mailID = getPersonID($email, $conn);
+
+                // Get the id of the email to be deleted
+                $id = getEmailFromTrash($subject, $date, $time, $_SESSION['id'], $conn, $mailID);
+            }
+        }else{
+            // Get the ID of the sender of the email
+            $mailID = getPersonID($email, $conn);
+
+            // Get the id of the email to be marked as read
+            $id = getSelectedEmail($subject, $date, $time, $mailID, $conn);
+        }
+       
 
        // Mark email as unread
        markAsUnread($id, $conn);
@@ -413,7 +575,7 @@ function markAsUnread($emailID, $conn){
         $time = date("h:i:s");
 
         //Get recipient id if recipient exists
-        $recipientID = getRecipient($recipient, $conn);
+        $recipientID = getPersonID($recipient, $conn);
 
         // Send email
         sendEmail($senderID, $subject, $content, $date, $time, $conn);

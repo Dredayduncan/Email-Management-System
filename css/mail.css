@@ -56,6 +56,7 @@
     margin-top: -7%;
     /* height: 80vh; */
     left: -53%;
+    transition: 0.5s ease-in-out;
 }
 
 .side-nav li{
@@ -73,6 +74,7 @@
     border-radius: 9999px;
     cursor: pointer;
     text-align: center;
+    transition: 0.5s ease-in-out;
 }
 
 .side-nav .label {
@@ -87,6 +89,7 @@
     position: relative;
     border-radius: 9999px;
     cursor: pointer;
+    transition: 0.5s ease-in-out;
 }
 
 .side-nav .label i{
@@ -401,22 +404,23 @@ img {
 /* ---------------When Slider is activated-------------------- */
 
 .preview-slided {
-    top: 0;
+    top: 24%;
+    width: 66%;
 }
 
 .email-slided {
     position: relative;
-    margin-left: -50%;
+    margin-left: -22%;
     width: 54.5%;
-    top: 0;
+    top: 24%;
 }
 
 .email-slided .email-card {
-    width: 170%;
+    width: 120%;
 }
 
 .options-slided {
-    top: -14.5%;
+    top: -40%;
 }
 
 .search-slided {

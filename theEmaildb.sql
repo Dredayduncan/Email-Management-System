@@ -138,11 +138,14 @@ create table Trash (
     emailID int,
     recipientID int,
     deleterID int,
-    foreign key (emailID) references Email_Sent(emailID)
+    grouprecipientID tinyint,
+    foreign key (emailID) references Email_Sent(emailID),
+    foreign key (recipientID) references Person(perID),
+    foreign key (grouprecipientID) references Email_Group(groupID)
 );
 
 #INSERTIONS
-insert into Person (fname, lname, gender, dob, address, email, image) values ("Antoinette", "Okyere", "Female", "1990-05-23", "Kwaku Moffat Close Dansoman Estates", "antoinette.okine@ashesi.edu.gh", "user.jpg");
+insert into Person (fname, lname, gender, dob, address, email, image) values ("Antoinette", "Okyere", "Female", "1990-05-23", "Kwaku Moffat Close Dansoman Estates", "antoinette.okyere@ashesi.edu.gh", "user.jpg");
 insert into Person (fname, lname, gender, dob, address, email, image) values ("Akua", "Ampah", "Female", "1991-04-26", "Jerry Hansen Street Tema Community 5", "akua.ampah@ashesi.edu.gh", "user.jpg");
 insert into Person (fname, lname, gender, dob, address, email, image) values ("Rejoice", "Agbleta", "Female", "1985-03-12", "Total Filling Station Baatsona", "rejoice.agbleta@ashesi.edu.gh", "user.jpg");
 insert into Person (fname, lname, gender, dob, address, email, image) values ("Affum", "Alhassan", "Male", "1988-01-31", "Ring Road Central Accra", "affum.alhassan@ashesi.edu.gh", "user.jpg");

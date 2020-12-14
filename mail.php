@@ -187,7 +187,7 @@
 			$(this).removeClass('side-menu').addClass('chosen');
 
 			// When the Trash menu has been selected
-			if ($('.side-nav').find('.chosen').attr('id') == 'trash'){
+			if ($('.side-nav').find('.chosen').attr('id') === 'trash'){
 				$('.options').children('li').eq(0).html('<i class="fas fa-trash-restore" aria-hidden="true"></i>  Restore');
 				$('.options').children('li').eq(0).attr('id', 'restore');
 
@@ -202,9 +202,10 @@
 					let senderEmail = $('.select').children('.senderEmail').html();
 
 					//restore the email 
-					$.get('utility/emailFunctions.php', {restore: 'true', name: name.split(' ')[0], sub: subject, 
+					$.get('utility/emailFunctions.php', {restore: $('.chosen').attr('id'), name: name.split(' ')[0], sub: subject, 
 						date: date, time: time, email: senderEmail}, function(data){
 						location.replace('mail.php');
+						// $('.emails').html(data);
 						
 					});
 				});
@@ -278,13 +279,19 @@
 				$.get('utility/emailFunctions.php', {menu: menu, name: name.split(' ')[0], sub: subject, 
 					date: date, time: time, email: senderEmail}, function(data){
 					location.replace('mail.php');
+					// $('.emails').html(data);
 				});
 			}
 			else{
+
+				if (menu === 'sent'){
+					senderEmail = <?=json_encode($_SESSION['userEmail']);?>;
+				}
 				//delete selected email card
 				$.get('utility/emailFunctions.php', {delete: menu, name: name.split(' ')[0], sub: subject, 
 					date: date, time: time, email: senderEmail}, function(data){
 					location.replace('mail.php');
+					// $('.emails').html(data);
 				});
 			}	
 		});
@@ -315,9 +322,9 @@
 			let senderEmail = $('.select').children('.senderEmail').html();
 
 			if ($('.chosen').attr('id') === 'sent'){
-                        senderEmail = <?=json_encode($_SESSION['userEmail']);?>;
-                        name = '';
-                    }
+					senderEmail = <?=json_encode($_SESSION['userEmail']);?>;
+					name = '';
+            }
 
 			// Temporarily increment unread number of emails value
 			let current = $('.chosen').find('.indicate p').html();
@@ -328,7 +335,7 @@
 			$('<span class="dot"></span>').insertAfter('.select img');
 			
 
-			$.post('utility/emailFunctions.php', {unread: true, name: name.split(' ')[0], sub: subject, 
+			$.post('utility/emailFunctions.php', {unread: $('.chosen').attr('id'), name: name.split(' ')[0], sub: subject, 
 				date: date, time: time, mail: senderEmail}, function(data){
 				// location.replace('mail.php?current=', $(this).attr('id'));
 				return;

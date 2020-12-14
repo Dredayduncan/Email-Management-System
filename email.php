@@ -109,43 +109,58 @@
         public function sent(){
             // Write the query to get sent
             $sql = "SELECT Email_Sent.emailID, Email_Sent.perID as SenderID, Email_Sent.dateSent, Email_Sent.timeSent,
-                Email_Sent.subject, Email_Sent.content, Email_Recipient.perID as RecipientID, T.groupID as GroupRecipientID,
-                Person.image, Person.fname, Person.lname, Person.email, Email_Sent.status
-                from Email_Sent 
-                left join Email_Recipient 
-                on Email_Sent.emailID = Email_Recipient.emailID 
-                left join Person 
-                on Email_Recipient.perID = Person.perID 
-                left join (select Email_Sent.emailID, EmailGroup_Recipient.groupID 
-                from Email_Sent inner join EmailGroup_Recipient 
-                on Email_Sent.emailID = EmailGroup_Recipient.emailID) as T 
-                on Email_Sent.emailID = T.emailID 
-                where Email_Sent.perID ='".$this->id."' order by dateSent DESC";
+            Email_Sent.subject, Email_Sent.content, Email_Recipient.perID as RecipientID, EmailGroup_Recipient.groupID as GroupRecipientID,
+            Person.image, Person.fname, Person.lname, Person.email, Email_Sent.status, Email_Group.name as groupName, Email_Group.groupID, Email_Group.image as groupImage
+            from Email_Sent 
+            left join Email_Recipient 
+            on Email_Sent.emailID = Email_Recipient.emailID 
+            left join Person 
+            on Email_Recipient.perID = Person.perID 
+            left join EmailGroup_Recipient 
+            on Email_Sent.emailID = EmailGroup_Recipient.emailID
+            left join Email_Group
+            on Email_Group.groupID = EmailGroup_Recipient.groupID
+            where Email_Sent.perID ='".$this->id."' and (EmailGroup_Recipient.groupID is not null 
+            or Email_Recipient.perID is not null)
+            order by dateSent DESC";
 
             // Generate the email cards
             return $this->generateEmailCards($sql);
         }
 
         public function trash(){
-            // Write the query to get sent
+
+            // Query Without Sent
             $sql = "SELECT Email_Sent.emailID, Email_Sent.perID as SenderID, Email_Sent.dateSent, Email_Sent.timeSent,
-            Email_Sent.subject, Email_Sent.content, Email_Recipient.perID as RecipientID, T.groupID as GroupRecipientID,
-            Person.image, Person.fname, Person.lname, Person.email, Email_Sent.status, Trash.deleterID 
-            from Email_Sent 
-            left join Email_Recipient 
-            on Email_Sent.emailID = Email_Recipient.emailID 
-            left join Trash 
+            Email_Sent.subject, Email_Sent.content, Email_Group.groupID as groupID, Email_Group.name as 				groupName,
+            Email_Group.image as groupImage,
+            Person.image, Person.fname, Person.lname, Person.email, Email_Sent.status, Trash.deleterID, Trash.senderID, Trash.recipientID 
+            FROM Trash
+            left join Email_Sent
             on Email_Sent.emailID = Trash.emailID
-            left join Person 
-            on Email_Sent.perID = Person.perID 
-            left join (select Email_Sent.emailID, EmailGroup_Recipient.groupID 
-            from Email_Sent inner join EmailGroup_Recipient 
-            on Email_Sent.emailID = EmailGroup_Recipient.emailID) as T 
-            on Email_Sent.emailID = T.emailID 
-            where Trash.deleterID ='".$this->id."' order by Email_Sent.dateSent DESC";
+            left join Person
+            on Person.perID = Email_Sent.perID
+            left join Email_Group
+            on Email_Group.groupID = Trash.grouprecipientID
+            where Trash.deleterID = '6' and (Email_Sent.perID > '".$this->id."' or Email_Sent.perID < '".$this->id."') order by Email_Sent.dateSent DESC";
+
+            // Query With sent
+            $sql2 = "SELECT Email_Sent.emailID, Email_Sent.perID as SenderID, Email_Sent.dateSent, Email_Sent.timeSent,
+            Email_Sent.subject, Email_Sent.content, Email_Group.groupID as groupID, Email_Group.name as 				groupName,
+            Email_Group.image as groupImage,
+            Person.image, Person.fname, Person.lname, Person.email, Email_Sent.status, Trash.deleterID, Trash.senderID, Trash.recipientID 
+            FROM Trash
+            left join Email_Sent
+            on Email_Sent.emailID = Trash.emailID
+            left join Person
+            on Person.perID = Trash.recipientID
+            left join Email_Group
+            on Email_Group.groupID = Trash.grouprecipientID
+            where Trash.senderID = '".$this->id."' order by Email_Sent.dateSent DESC";
 
             // Generate the email cards
-            return $this->generateEmailCards($sql);
+            $this->generateEmailCards($sql);
+            $this->generateEmailCards($sql2);
         }
 
         // Generate Email cards for a side menu. Takes in the query and generates the email cards
@@ -164,19 +179,30 @@
                 $unread = 0;
                 // Create an email card for each record returned and print them in the mail page
                 while ($data = mysqli_fetch_array($result)){
+                    $img = $data['image'];
+                    $fname = $data['fname'];
+                    $lname = $data['lname'];
+                    $email  = $data['email'];
+
+                    // Check if the email was sent to a group and retrieve the group's details
+                    if ($img == ''){
+                        $img = $data['groupImage'];
+                        $fname = $data['groupName'];
+                        $email = $data['SenderID'];
+                    }
                     
                     // Increment unread if the email hasn't been read
                     if ($data['status'] == 'UNREAD'){
                         $unread += 1;
 
                         // Create email card
-                        echo $this->emailCard($data['image'], $data['dateSent'], $data['timeSent'], $data['fname'],
-                        $data['lname'], $data['subject'], $data['content'], $data['email'], true, $data['emailID']);
+                        echo $this->emailCard($img, $data['dateSent'], $data['timeSent'], $fname,
+                        $lname, $data['subject'], $data['content'], $email, true);
                     }
                     else{
                         // Create email card
-                        echo $this->emailCard($data['image'], $data['dateSent'], $data['timeSent'], $data['fname'],
-                        $data['lname'], $data['subject'], $data['content'], $data['email'], false, $data['emailID']);
+                        echo $this->emailCard($img, $data['dateSent'], $data['timeSent'], $fname,
+                        $lname, $data['subject'], $data['content'], $email, false);
                     }
                     
                 }
@@ -190,7 +216,7 @@
         }
 
         // Create an email card for each record in the email table in the database
-        private function emailCard($img, $date, $time, $fname, $lname, $subject, $content, $senderEmail, $status, $emailID){
+        private function emailCard($img, $date, $time, $fname, $lname, $subject, $content, $senderEmail, $status){
             // Get the time that'll be displayed on the
 
             $timespan = date('m/d/Y', strtotime($date.' '.$time));
@@ -215,13 +241,12 @@
                 $indicator = '';
             }
 
-            return "<div id=".$emailID." class='email-card'>
+            return "<div class='email-card'>
             <img src='verification/uploads/".$img."' alt='IMG'>
             ".$indicator."
             <p class='date' hidden>".$date."</p>
             <p class='time' hidden>".$time."</p>
             <p class='senderEmail' hidden>".$senderEmail."</p>
-            <p class='unread' hidden></p>
             <div class='name'>
                 <p>".$fname.' '.$lname."</p>
             </div>
@@ -285,11 +310,8 @@
 
                     // Remove indicator and Mark email as read
                     $(this).find('.dot').remove();
-                    $.post('utility/emailFunctions.php', {read: true, name: name.split(' ')[0], sub: subject, 
+                    $.post('utility/emailFunctions.php', {read: $('.chosen').attr('id'), name: name.split(' ')[0], sub: subject, 
                         date: date, time: time, mail: senderEmail}, function(data){    
-                        // var redirect = 'mail.php?current=';
-                        // location.replace(redirect.concat(id));
-                        // $('.emails').html(data);
                         return;
                     });
         
