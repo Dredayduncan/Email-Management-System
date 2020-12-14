@@ -1,6 +1,6 @@
 # Email-Management-Web-Application
 
-### This is an email management web application meant for Ashesi University. The application is used to manage emails in the form of sending and receiving emails to and from other user and email groups. The web application implements various functionalities that allow the user to view their inbox (messages the have received), view the messages they have sent, and well as send message and or emails to other users. The web application is a miniature version of what you'd find in Gmail, and Outlook. The web appliaction also allows the user to delete unwanted emails which will be moved to the trash folder which they can permanently delete from.
+This is an email management web application meant for Ashesi University. The application is used to manage emails in the form of sending and receiving emails to and from other user and email groups. The web application implements various functionalities that allow the user to view their inbox (messages the have received), view the messages they have sent, and well as send message and or emails to other users. The web application is a miniature version of what you'd find in Gmail, and Outlook. The web appliaction also allows the user to delete unwanted emails which will be moved to the trash folder which they can permanently delete from.
 
 ## How to use
 - You can run this web application on a localhost (XAMPP to be specific).
