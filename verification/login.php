@@ -33,7 +33,7 @@
         $_SESSION['id'] = $user['perID'];
 
         //Reroute to email page
-        header("Location: ../mail.php?error=Login Successful");
+        header("Location: ../mail.php");
         die;
     }
     else{

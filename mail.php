@@ -19,8 +19,9 @@
 	<link rel="stylesheet" type="text/css" href="css/mail.css">
 <!--===============================================================================================-->
 <?php 
-	include "Email.php";
 	include "verification/config.php";
+	include "Email.php";
+	
 
 	if (!isset($_SESSION['userEmail'])){
 		header('Location: index.php');
